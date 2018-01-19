@@ -715,7 +715,7 @@ body {
 
 #img-container{
     float: left;
-    width:100%;
+    width:350px;
     height:350px;
     padding-bottom: 5px;
 }
@@ -725,8 +725,8 @@ body {
     float: left;
     margin-left: 20px;
     margin-top: 40px;
-    width: 35%;
-    height: 60%;
+    width: 125px;
+    height: 180px;
     background-color: white;
 }
 
@@ -734,8 +734,8 @@ body {
     float: left;
     margin-top: 50px;
     margin-left: 10px;
-    width:35%;
-    height:50%;
+    width:135px;
+    height:150px;
     font-size: 10px;
     background-color:white;
     color: #000 !important;
