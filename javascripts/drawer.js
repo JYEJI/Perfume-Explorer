@@ -1,7 +1,7 @@
 var root = d3.select('#renderer').append('svg');
 var windowWidth = $(window).width();
 var windowHeight = $(window).height();
-root.attr('width', windowWidth).attr('height', windowHeight/2+(windowHeight+130)/3);
+root.attr('width', windowWidth).attr('height', windowHeight/2+(windowHeight+150)/3);
 
 var numeric=[];
 var brand = "";
@@ -29,90 +29,90 @@ function testfunc(test) {
         var weigh = test.parentNode.parentNode.getAttribute('class');
         var nWeight = event.target.value;
 
-            if(nWeight== -10) {
-                test.nextSibling.childNodes[0].style.flex='0.0 1 0%';
-                test.nextSibling.childNodes[1].style.flex='1.0 1 0%';
-            }
-            else if(nWeight== -9){
-                test.nextSibling.childNodes[0].style.flex='0.05 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.95 1 0%';
-            }
-            else if(nWeight== -8){
-                test.nextSibling.childNodes[0].style.flex='0.1 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.9 1 0%';
-            }
-            else if(nWeight== -7){
-                test.nextSibling.childNodes[0].style.flex='0.15 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.85 1 0%';
-            }
-            else if(nWeight== -6){
-                test.nextSibling.childNodes[0].style.flex='0.2 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.8 1 0%';
-            }
-            else if(nWeight== -5){
-                test.nextSibling.childNodes[0].style.flex='0.25 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.75 1 0%';
-            }
-            else if(nWeight== -4){
-                test.nextSibling.childNodes[0].style.flex='0.3 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.7 1 0%';
-            }
-            else if(nWeight== -3){
-                test.nextSibling.childNodes[0].style.flex='0.35 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.65 1 0%';
-            }
-            else if(nWeight== -2){
-                test.nextSibling.childNodes[0].style.flex='0.4 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.6 1 0%';
-            }
-            else if(nWeight== -1){
-                test.nextSibling.childNodes[0].style.flex='0.45 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.55 1 0%';
-            }
-            else if(nWeight== 0){
-                test.nextSibling.childNodes[0].style.flex='0.5 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.5 1 0%';
-            }
-            else if(nWeight== 1){
-                test.nextSibling.childNodes[0].style.flex='0.55 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.45 1 0%';
-            }
-            else if(nWeight== 2){
-                test.nextSibling.childNodes[0].style.flex='0.6 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.4 1 0%';
-            }
-            else if(nWeight== 3){
-                test.nextSibling.childNodes[0].style.flex='0.65 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.35 1 0%';
-            }
-            else if(nWeight== 4){
-                test.nextSibling.childNodes[0].style.flex='0.7 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.3 1 0%';
-            }
-            else if(nWeight== 5){
-                test.nextSibling.childNodes[0].style.flex='0.75 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.25 1 0%';
-            }
-            else if(nWeight== 6){
-                test.nextSibling.childNodes[0].style.flex='0.8 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.2 1 0%';
-            }
-            else if(nWeight== 7){
-                test.nextSibling.childNodes[0].style.flex='0.85 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.15 1 0%';
-            }
-            else if(nWeight== 8){
-                test.nextSibling.childNodes[0].style.flex='0.9 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.1 1 0%';
-            }
-            else if(nWeight== 9){
-                test.nextSibling.childNodes[0].style.flex='0.95 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.05 1 0%';
-            }
-            else if(nWeight== 10){
-                test.nextSibling.childNodes[0].style.flex='1.0 1 0%';
-                test.nextSibling.childNodes[1].style.flex='0.0 1 0%';
-            }
+        if(nWeight== -10) {
+            test.nextSibling.childNodes[0].style.flex='0.0 1 0%';
+            test.nextSibling.childNodes[1].style.flex='1.0 1 0%';
+        }
+        else if(nWeight== -9){
+            test.nextSibling.childNodes[0].style.flex='0.05 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.95 1 0%';
+        }
+        else if(nWeight== -8){
+            test.nextSibling.childNodes[0].style.flex='0.1 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.9 1 0%';
+        }
+        else if(nWeight== -7){
+            test.nextSibling.childNodes[0].style.flex='0.15 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.85 1 0%';
+        }
+        else if(nWeight== -6){
+            test.nextSibling.childNodes[0].style.flex='0.2 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.8 1 0%';
+        }
+        else if(nWeight== -5){
+            test.nextSibling.childNodes[0].style.flex='0.25 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.75 1 0%';
+        }
+        else if(nWeight== -4){
+            test.nextSibling.childNodes[0].style.flex='0.3 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.7 1 0%';
+        }
+        else if(nWeight== -3){
+            test.nextSibling.childNodes[0].style.flex='0.35 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.65 1 0%';
+        }
+        else if(nWeight== -2){
+            test.nextSibling.childNodes[0].style.flex='0.4 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.6 1 0%';
+        }
+        else if(nWeight== -1){
+            test.nextSibling.childNodes[0].style.flex='0.45 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.55 1 0%';
+        }
+        else if(nWeight== 0){
+            test.nextSibling.childNodes[0].style.flex='0.5 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.5 1 0%';
+        }
+        else if(nWeight== 1){
+            test.nextSibling.childNodes[0].style.flex='0.55 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.45 1 0%';
+        }
+        else if(nWeight== 2){
+            test.nextSibling.childNodes[0].style.flex='0.6 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.4 1 0%';
+        }
+        else if(nWeight== 3){
+            test.nextSibling.childNodes[0].style.flex='0.65 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.35 1 0%';
+        }
+        else if(nWeight== 4){
+            test.nextSibling.childNodes[0].style.flex='0.7 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.3 1 0%';
+        }
+        else if(nWeight== 5){
+            test.nextSibling.childNodes[0].style.flex='0.75 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.25 1 0%';
+        }
+        else if(nWeight== 6){
+            test.nextSibling.childNodes[0].style.flex='0.8 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.2 1 0%';
+        }
+        else if(nWeight== 7){
+            test.nextSibling.childNodes[0].style.flex='0.85 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.15 1 0%';
+        }
+        else if(nWeight== 8){
+            test.nextSibling.childNodes[0].style.flex='0.9 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.1 1 0%';
+        }
+        else if(nWeight== 9){
+            test.nextSibling.childNodes[0].style.flex='0.95 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.05 1 0%';
+        }
+        else if(nWeight== 10){
+            test.nextSibling.childNodes[0].style.flex='1.0 1 0%';
+            test.nextSibling.childNodes[1].style.flex='0.0 1 0%';
+        }
 
 
         Vis.updateWeight(weigh, nWeight);
@@ -153,7 +153,7 @@ var Vis = new function () {
             .on("mouseup", mouseup);
 
         function mouse(e) {
-            return [e.pageX-700, e.pageY-350];
+            return [e.pageX-windowWidth/4+windowWidth/25, e.pageY-windowHeight/3+windowHeight/9];
         }
 
         function mousedown() {
@@ -182,8 +182,7 @@ var Vis = new function () {
                 m0 = null;
 
                 g.style("-webkit-transform", null);
-
-                g.attr('transform', 'translate('+(windowWidth/4+windowWidth/25)+','+(windowHeight/3+windowHeight/9)+')');
+                g.attr('transform', 'translate('+(windowWidth/4+windowWidth/25)+','+(windowHeight/3+windowHeight/9)+')rotate(' + rotate + ')');
                 console.log("dm:"+dm);
                 console.log("rotate:"+rotate);
             }
@@ -193,7 +192,7 @@ var Vis = new function () {
         }
 
         function setState(dm){
-            g.attr('transform', 'translate('+(windowWidth/4+windowWidth/25)+','+(windowHeight/3+windowHeight/9)+')');
+            g.attr('transform', 'translate('+(windowWidth/4+windowWidth/25)+','+(windowHeight/3+windowHeight/9)+')rotate(' + (rotate + dm) + ')');
         }
 
         function add_item(id,dm,dm_name){
@@ -698,7 +697,7 @@ var Vis = new function () {
         }
         that.redrawdimensions = unique(that.redrawdimensions);
 
-        if(dimension_r[1]-dimension_r[0]>=60||dimension_r[2]-dimension_r[1]>=60||dimension_r[0]>=260){
+        if(dimension_r[1]-dimension_r[0]>=60||dimension_r[2]-dimension_r[1]>=60||dimension_r[0]>=windowWidth/6+30){
             dimensionCount=0;
             that.dimensions=[];
             that.Weightdimensions=[];
@@ -769,8 +768,8 @@ var Vis = new function () {
         else if(colorVar=="day/night"){
             //Append multiple color stops by using D3's data/enter step
             _.forEach(points, function (p) {
-            p.circle
-                .style("fill", function(d) { return color(p.data[colorVar]); });
+                p.circle
+                    .style("fill", function(d) { return color(p.data[colorVar]); });
             });
         }
         else if(colorVar=="Rating"){
@@ -823,19 +822,19 @@ var Vis = new function () {
 
                         for(var i=0;i<1;i++){
 
-                        if(p.data["Designer"]==brand){
-                            brandCategory.text(function (varName) {
-                                return "Brand" + ":  " +p.data[varName]
-                            })
-                                .style("color","#FF689F");
+                            if(p.data["Designer"]==brand){
+                                brandCategory.text(function (varName) {
+                                    return "Brand" + ":  " +p.data[varName]
+                                })
+                                    .style("color","#FF689F");
+                            }
+                            else{
+                                brandCategory.text(function (varName) {
+                                    return "Brand" + ":  " +p.data[varName]
+                                })
+                                    .style("color","#bababa");
+                            }
                         }
-                        else{
-                            brandCategory.text(function (varName) {
-                                return "Brand" + ":  " +p.data[varName]
-                            })
-                                .style("color","#bababa");
-                        }
-                       }
                     }
                 }
 
@@ -1578,226 +1577,226 @@ var Vis = new function () {
                 console.log(name);
                 prepoint2.push(p.data);
 
-                    if(compare)
-                    {
-                        if (compare == "Season") {
-                            data = [
-                                {
-                                    className: 'Season', // optional can be used for styling
-                                    axes: [
-                                        {axis: season[0], value: p.data["spring"]},
-                                        {axis: season[1], value: p.data["summer"]},
-                                        {axis: season[2], value: p.data["autumn"]},
-                                        {axis: season[3], value: p.data["winter"]}
-                                    ]
-                                }
-                            ];
-                        }
-                        else if (compare == "Sillage") {
-                            data = [
-                                {
-                                    className: 'Sillage', // optional can be used for styling
-                                    axes: [
-                                        {axis: sillage[0], value: p.data["sillagesoft"]},
-                                        {axis: sillage[1], value: p.data["sillagemoderate"]},
-                                        {axis: sillage[2], value: p.data["sillageheavy"]},
-                                        {axis: sillage[3], value: p.data["sillageenormous"]}
-                                    ]
-                                }
-                            ];
-                        }
-                        else if (compare == "Longevity") {
-                            data = [
-                                {
-                                    className: 'Longevity', // optional can be used for styling
-                                    axes: [
-                                        {axis: longevity[0], value: p.data["longevitypoor"]},
-                                        {axis: longevity[1], value: p.data["longevityweak"]},
-                                        {axis: longevity[2], value: p.data["longevitymoderate"]},
-                                        {axis: longevity[3], value: p.data["longevitylonglasting"]},
-                                        {axis: longevity[4], value: p.data["longevityverylonglasting"]}
-                                    ]
-                                }
-                            ];
-                        }
-                        else if (compare == "Notes") {
-                            data = [
-                                {
-                                    className: ['Notes'], // optional can be used for styling
-                                    axes: [
-                                        {axis: notes[0], value: p.data["MUSK__AMBER__ANIMALIC_SMELLS"]},
-                                        {axis: notes[1], value: p.data["SWEETS_AND_GOURMAND_SMELLS"]},
-                                        {axis: notes[2], value: p.data["RESINS_AND_BALSAMS"]},
-                                        {axis: notes[3], value: p.data["SPICES"]},
-                                        {axis: notes[4], value: p.data["WOODS_AND_MOSSES"]},
-                                        {axis: notes[5], value: p.data["BEVERAGES"]},
-                                        {axis: notes[6], value: p.data["CITRUS_SMELLS"]},
-                                        {axis: notes[7], value: p.data["NATURAL_AND_SYNTHETIC__POPULAR_AND_WEIRD"]},
-                                        {axis: notes[8], value: p.data["GREENS__HERBS_AND_FOUGERES"]},
-                                        {axis: notes[9], value: p.data["FRUITS__VEGETABLES_AND_NUTS"]},
-                                        {axis: notes[10], value: p.data["FLOWERS"]},
-                                        {axis: notes[11], value: p.data["WHITE_FLOWERS"]}
-                                    ]
-                                }
-                            ];
-                        }
-
-                        d3.select("#radarChart").remove();
-
-                        var chart = RadarChart.chart();
-                        var cfg = chart.config({
-                            containerClass: 'radar-chart', // target with css, the default stylesheet targets .radar-chart
-                            w: 200,
-                            h: 200,
-                            factor: 0.8,
-                            factorLegend: 0.95,
-                            levels: 3,
-                            maxValue: 0,
-                            minValue: 0,
-                            radians: 2 * Math.PI,
-                            color: function(i) {
-                                c = ["#dd2e36"];
-                                return c[i]},//color: d3.scale.category10(), // pass a noop (function() {}) to decide color via css
-                            axisLine: true,
-                            axisText: true,
-                            circles: true,
-                            radius: 0,
-                            open: false,  // whether or not the last axis value should connect back to the first axis value
-                                          // if true, consider modifying the chart opacity (see "Style with CSS" section above)
-                            axisJoin: function (d, i) {
-                                return d.className || i;
-                            },
-                            tooltipFormatValue: function (d) {
-                                return d;
-                            },
-                            tooltipFormatClass: function (d) {
-                                return d;
-                            },
-                            transitionDuration: 300,
-                            facet: false,
-                            levelScale: 0.85,
-                            labelScale: 5.0,
-                            facetPaddingScale: 2.1,
-                            showLevels: true,
-                            showLevelsLabels: true,
-                            showAxesLabels: true,
-                            showAxes: true,
-                            showLegend: true,
-                            showVertices: true,
-                            showPolygons: true,
-                            polygonAreaOpacity: 0.3,
-                            polygonStrokeOpacity: 1,
-                            polygonPointSize: 4,
-                            legendBoxSize: 50,
-                            legendPosition: {x: 20, y: 20},
-                            paddingX: 10,
-                            paddingY: 30
-                        });
-
-                        var svg = d3.select('.radar-chart').append('svg').attr("id","radarChart");
-                        svg.attr('width', 200).attr('height', 200);
-                        svg.append('g').classed('single', 1).datum(data).call(chart);
+                if(compare)
+                {
+                    if (compare == "Season") {
+                        data = [
+                            {
+                                className: 'Season', // optional can be used for styling
+                                axes: [
+                                    {axis: season[0], value: p.data["spring"]},
+                                    {axis: season[1], value: p.data["summer"]},
+                                    {axis: season[2], value: p.data["autumn"]},
+                                    {axis: season[3], value: p.data["winter"]}
+                                ]
+                            }
+                        ];
+                    }
+                    else if (compare == "Sillage") {
+                        data = [
+                            {
+                                className: 'Sillage', // optional can be used for styling
+                                axes: [
+                                    {axis: sillage[0], value: p.data["sillagesoft"]},
+                                    {axis: sillage[1], value: p.data["sillagemoderate"]},
+                                    {axis: sillage[2], value: p.data["sillageheavy"]},
+                                    {axis: sillage[3], value: p.data["sillageenormous"]}
+                                ]
+                            }
+                        ];
+                    }
+                    else if (compare == "Longevity") {
+                        data = [
+                            {
+                                className: 'Longevity', // optional can be used for styling
+                                axes: [
+                                    {axis: longevity[0], value: p.data["longevitypoor"]},
+                                    {axis: longevity[1], value: p.data["longevityweak"]},
+                                    {axis: longevity[2], value: p.data["longevitymoderate"]},
+                                    {axis: longevity[3], value: p.data["longevitylonglasting"]},
+                                    {axis: longevity[4], value: p.data["longevityverylonglasting"]}
+                                ]
+                            }
+                        ];
+                    }
+                    else if (compare == "Notes") {
+                        data = [
+                            {
+                                className: ['Notes'], // optional can be used for styling
+                                axes: [
+                                    {axis: notes[0], value: p.data["MUSK__AMBER__ANIMALIC_SMELLS"]},
+                                    {axis: notes[1], value: p.data["SWEETS_AND_GOURMAND_SMELLS"]},
+                                    {axis: notes[2], value: p.data["RESINS_AND_BALSAMS"]},
+                                    {axis: notes[3], value: p.data["SPICES"]},
+                                    {axis: notes[4], value: p.data["WOODS_AND_MOSSES"]},
+                                    {axis: notes[5], value: p.data["BEVERAGES"]},
+                                    {axis: notes[6], value: p.data["CITRUS_SMELLS"]},
+                                    {axis: notes[7], value: p.data["NATURAL_AND_SYNTHETIC__POPULAR_AND_WEIRD"]},
+                                    {axis: notes[8], value: p.data["GREENS__HERBS_AND_FOUGERES"]},
+                                    {axis: notes[9], value: p.data["FRUITS__VEGETABLES_AND_NUTS"]},
+                                    {axis: notes[10], value: p.data["FLOWERS"]},
+                                    {axis: notes[11], value: p.data["WHITE_FLOWERS"]}
+                                ]
+                            }
+                        ];
                     }
 
-                    var img = subview.select("#img").data(["Img_url"]);
-                    img.style("display","block");
-                    img.attr("src",p.data["Img_url"]);
+                    d3.select("#radarChart").remove();
 
-                    var selectbox = subview.select(".comparison-select-box");
-                    selectbox.style("display","block");
-
-                    var perfume_name = subview.select("#perfume-name").data(["Name"]);
-                    perfume_name.exit().remove();
-                    perfume_name.enter().append("p");
-                    perfume_name.text("Name").style("font-weight","bold").style("margin-left","10px").style("margin-top","10px")
-                    perfume_name.append("text").text(": "+p.data["Name"]).style("font-weight","normal");
-
-                    var perfume_brand = subview.select("#perfume-brand").data(["Designer"]);
-                    perfume_brand.exit().remove();
-                    perfume_brand.enter().append("p");
-                    perfume_brand.text("Brand").style("font-weight","bold").style("margin-left","10px")
-                    perfume_brand.append("text").text(": "+p.data["Designer"]).style("font-weight","normal");
-
-                    var perfume_gender = subview.select("#perfume-gender").data(["Gender"]);
-                    perfume_gender.exit().remove();
-                    perfume_gender.enter().append("p");
-                    perfume_gender.text("Gender").style("font-weight","bold").style("margin-left","10px")
-                    perfume_gender.append("text").text(": "+p.data["Gender"]).style("font-weight","normal");
-
-
-                    var data =[{"name": "love","value": p.data["love"]}, {"name": "like","value": p.data["like"]},{"name": "dislike","value": p.data["dislike"]}];
-
-                    //sort bars based on value
-                    data = data.sort(function (a, b) {
-                        return d3.ascending(a.value, b.value);
+                    var chart = RadarChart.chart();
+                    var cfg = chart.config({
+                        containerClass: 'radar-chart', // target with css, the default stylesheet targets .radar-chart
+                        w: 200,
+                        h: 200,
+                        factor: 0.8,
+                        factorLegend: 0.95,
+                        levels: 3,
+                        maxValue: 0,
+                        minValue: 0,
+                        radians: 2 * Math.PI,
+                        color: function(i) {
+                            c = ["#dd2e36"];
+                            return c[i]},//color: d3.scale.category10(), // pass a noop (function() {}) to decide color via css
+                        axisLine: true,
+                        axisText: true,
+                        circles: true,
+                        radius: 0,
+                        open: false,  // whether or not the last axis value should connect back to the first axis value
+                                      // if true, consider modifying the chart opacity (see "Style with CSS" section above)
+                        axisJoin: function (d, i) {
+                            return d.className || i;
+                        },
+                        tooltipFormatValue: function (d) {
+                            return d;
+                        },
+                        tooltipFormatClass: function (d) {
+                            return d;
+                        },
+                        transitionDuration: 300,
+                        facet: false,
+                        levelScale: 0.85,
+                        labelScale: 5.0,
+                        facetPaddingScale: 2.1,
+                        showLevels: true,
+                        showLevelsLabels: true,
+                        showAxesLabels: true,
+                        showAxes: true,
+                        showLegend: true,
+                        showVertices: true,
+                        showPolygons: true,
+                        polygonAreaOpacity: 0.3,
+                        polygonStrokeOpacity: 1,
+                        polygonPointSize: 4,
+                        legendBoxSize: 50,
+                        legendPosition: {x: 20, y: 20},
+                        paddingX: 10,
+                        paddingY: 30
                     });
 
-                    d3.select("#barchart").remove();
+                    var svg = d3.select('.radar-chart').append('svg').attr("id","radarChart");
+                    svg.attr('width', 200).attr('height', 200);
+                    svg.append('g').classed('single', 1).datum(data).call(chart);
+                }
 
-                    var svg = subview.select("#perfume-vote").append("svg").attr("id","barchart")
-                        .attr("width", width + margin.left + margin.right)
-                        .attr("height", height + margin.top + margin.bottom)
-                        .append("g")
-                        .attr("transform", "translate(5,15)");
+                var img = subview.select("#img").data(["Img_url"]);
+                img.style("display","block");
+                img.attr("src",p.data["Img_url"]);
 
-                    subview.select("#barchart").append("text").text("Vote").attr("transform", "translate(10,"+margin.top+")").style("font-weight","bold");
+                var selectbox = subview.select(".comparison-select-box");
+                selectbox.style("display","block");
 
-                    var x = d3.scale.linear()
-                        .range([0, width-120])
-                        .domain([0, d3.max(data, function (d) {
-                            return d.value;
-                        })]);
+                var perfume_name = subview.select("#perfume-name").data(["Name"]);
+                perfume_name.exit().remove();
+                perfume_name.enter().append("p");
+                perfume_name.text("Name").style("font-weight","bold").style("margin-left","10px").style("margin-top","10px")
+                perfume_name.append("text").text(": "+p.data["Name"]).style("font-weight","normal");
 
-                    var y = d3.scale.ordinal()
-                        .rangeRoundBands([height-30, 0], 1)
-                        .domain(data.map(function (d) {
-                            return d.name;
-                        }));
+                var perfume_brand = subview.select("#perfume-brand").data(["Designer"]);
+                perfume_brand.exit().remove();
+                perfume_brand.enter().append("p");
+                perfume_brand.text("Brand").style("font-weight","bold").style("margin-left","10px")
+                perfume_brand.append("text").text(": "+p.data["Designer"]).style("font-weight","normal");
 
-                    //make y axis to show bar names
-                    var yAxis = d3.svg.axis()
-                        .scale(y)
-                        //no tick marks
-                        .tickSize(0)
-                        .orient("left");
+                var perfume_gender = subview.select("#perfume-gender").data(["Gender"]);
+                perfume_gender.exit().remove();
+                perfume_gender.enter().append("p");
+                perfume_gender.text("Gender").style("font-weight","bold").style("margin-left","10px")
+                perfume_gender.append("text").text(": "+p.data["Gender"]).style("font-weight","normal");
 
-                    var gy = svg.append("g")
-                        .attr("class", "y axis")
-                        .attr("transform", "translate(40,0)")
-                        .call(yAxis);
 
-                    var bars = svg.selectAll(".bar")
-                        .data(data)
-                        .enter()
-                        .append("g");
+                var data =[{"name": "love","value": p.data["love"]}, {"name": "like","value": p.data["like"]},{"name": "dislike","value": p.data["dislike"]}];
 
-                    //append rects
-                    bars.append("rect")
-                        .style("fill","#d3d3d3")
-                        .attr("class", "bar")
-                        .attr("y", function (d) {
-                            return y(d.name)-10;
-                        })
-                        .attr("height", 20)
-                        .attr("x", 50)
-                        .attr("width", function (d) {
-                            return x(d.value);
-                        });
+                //sort bars based on value
+                data = data.sort(function (a, b) {
+                    return d3.ascending(a.value, b.value);
+                });
 
-                    //add a value label to the right of each bar
-                    bars.append("text")
-                        .attr("class", "label")
-                        //y position of the label is halfway down the bar
-                        .attr("y", function (d) {
-                            return y(d.name);
-                        })
-                        //x position is 3 pixels to the right of the bar
-                        .attr("x", function (d) {
-                            return x(d.value) + 60;
-                        })
-                        .text(function (d) {
-                            return d.value.substring(0,4);
-                        });
+                d3.select("#barchart").remove();
+
+                var svg = subview.select("#perfume-vote").append("svg").attr("id","barchart")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform", "translate(5,15)");
+
+                subview.select("#barchart").append("text").text("Vote").attr("transform", "translate(10,"+margin.top+")").style("font-weight","bold");
+
+                var x = d3.scale.linear()
+                    .range([0, width-120])
+                    .domain([0, d3.max(data, function (d) {
+                        return d.value;
+                    })]);
+
+                var y = d3.scale.ordinal()
+                    .rangeRoundBands([height-30, 0], 1)
+                    .domain(data.map(function (d) {
+                        return d.name;
+                    }));
+
+                //make y axis to show bar names
+                var yAxis = d3.svg.axis()
+                    .scale(y)
+                    //no tick marks
+                    .tickSize(0)
+                    .orient("left");
+
+                var gy = svg.append("g")
+                    .attr("class", "y axis")
+                    .attr("transform", "translate(40,0)")
+                    .call(yAxis);
+
+                var bars = svg.selectAll(".bar")
+                    .data(data)
+                    .enter()
+                    .append("g");
+
+                //append rects
+                bars.append("rect")
+                    .style("fill","#d3d3d3")
+                    .attr("class", "bar")
+                    .attr("y", function (d) {
+                        return y(d.name)-10;
+                    })
+                    .attr("height", 20)
+                    .attr("x", 50)
+                    .attr("width", function (d) {
+                        return x(d.value);
+                    });
+
+                //add a value label to the right of each bar
+                bars.append("text")
+                    .attr("class", "label")
+                    //y position of the label is halfway down the bar
+                    .attr("y", function (d) {
+                        return y(d.name);
+                    })
+                    //x position is 3 pixels to the right of the bar
+                    .attr("x", function (d) {
+                        return x(d.value) + 60;
+                    })
+                    .text(function (d) {
+                        return d.value.substring(0,4);
+                    });
 
             }
 
@@ -1994,7 +1993,7 @@ var Vis = new function () {
             d3.selectAll('#selectList #perfume-list').remove();
             var p = d3.mouse(this);
             if(p[0]>-200&&p[1]<200
-            &&p[0]<200&&p[1]>-200)
+                &&p[0]<200&&p[1]>-200)
             {
                 selectionRect.init(p[0], p[1]);
                 selectionRect.removePrevious();
@@ -2020,7 +2019,7 @@ var Vis = new function () {
 
             _.forEach(points, function (p) {
                 if(finalAttributes.x1<p.circle[0][0].getAttribute("cx")&&p.circle[0][0].getAttribute("cx")<finalAttributes.x2
-                &&finalAttributes.y1<p.circle[0][0].getAttribute("cy")&&p.circle[0][0].getAttribute("cy")<finalAttributes.y2)
+                    &&finalAttributes.y1<p.circle[0][0].getAttribute("cy")&&p.circle[0][0].getAttribute("cy")<finalAttributes.y2)
                 {
                     add_item(p);
                 }
