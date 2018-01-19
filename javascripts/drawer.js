@@ -1,7 +1,7 @@
 var root = d3.select('#renderer').append('svg');
 var windowWidth = $(window).width();
 var windowHeight = $(window).height();
-root.attr('width', windowWidth).attr('height', windowHeight/2+(windowHeight+150)/3);
+root.attr('width', windowWidth).attr('height', (windowHeight+550)/2);
 
 var numeric=[];
 var brand = "";
@@ -126,7 +126,7 @@ var Vis = new function () {
     this.Weightdimensions = [];
     var that = this;
     var parentG = root.append('g')
-        .attr('transform', 'translate('+(windowWidth/4+windowWidth/25)+','+(windowHeight/3+windowHeight/9)+')');
+        .attr('transform', 'translate('+((windowWidth-200)/2)+','+(windowHeight/2-56)+')');
 
     var color;
 
@@ -136,9 +136,9 @@ var Vis = new function () {
     this.drawDimension = function (keys,name) {
 
         var g = root.append('g');
-        g.attr('transform', 'translate('+(windowWidth/4+windowWidth/25)+','+(windowHeight/3+windowHeight/9)+')').attr('id',name);
+        g.attr('transform', 'translate('+((windowWidth-200)/2)+','+(windowHeight/2-56)+')').attr('id',name);
 
-        var r = windowWidth/6 + dimensionCount * 30;
+        var r = (windowWidth-150)/6 + dimensionCount * 30;
 
         var length = keys.length;
         var Season_color = ["#248F46","#EEB23C","#9D3F22","#195B7F"];
@@ -153,7 +153,7 @@ var Vis = new function () {
             .on("mouseup", mouseup);
 
         function mouse(e) {
-            return [e.pageX-windowWidth/4+windowWidth/25, e.pageY-windowHeight/3+windowHeight/9];
+            return [e.pageX-(windowWidth-200)/2, e.pageY-windowHeight/2-56];
         }
 
         function mousedown() {
@@ -182,7 +182,7 @@ var Vis = new function () {
                 m0 = null;
 
                 g.style("-webkit-transform", null);
-                g.attr('transform', 'translate('+(windowWidth/4+windowWidth/25)+','+(windowHeight/3+windowHeight/9)+')rotate(' + rotate + ')');
+                g.attr('transform', 'translate('+((windowWidth-200)/2)+','+(windowHeight/2-56)+')rotate(' + rotate + ')');
                 console.log("dm:"+dm);
                 console.log("rotate:"+rotate);
             }
@@ -192,7 +192,7 @@ var Vis = new function () {
         }
 
         function setState(dm){
-            g.attr('transform', 'translate('+(windowWidth/4+windowWidth/25)+','+(windowHeight/3+windowHeight/9)+')rotate(' + (rotate + dm) + ')');
+            g.attr('transform', 'translate('+((windowWidth-200)/2)+','+(windowHeight/2-56)+')rotate(' + (rotate + dm) + ')');
         }
 
         function add_item(id,dm,dm_name){
@@ -609,8 +609,8 @@ var Vis = new function () {
                 })
             });
             p.circle.transition().duration(1000).attr({
-                cx: x / maxDist * (windowWidth/7),
-                cy: y / maxDist * (windowWidth/7),
+                cx: x / maxDist * ((windowWidth-150)/7-20),
+                cy: y / maxDist * ((windowWidth-150)/7-20),
             });
             if(dimensionCount==0)
                 p.circle.attr({
@@ -697,7 +697,7 @@ var Vis = new function () {
         }
         that.redrawdimensions = unique(that.redrawdimensions);
 
-        if(dimension_r[1]-dimension_r[0]>=60||dimension_r[2]-dimension_r[1]>=60||dimension_r[0]>=windowWidth/6+30){
+        if(dimension_r[1]-dimension_r[0]>=60||dimension_r[2]-dimension_r[1]>=60||dimension_r[0]>=(windowWidth-150)/6+30){
             dimensionCount=0;
             that.dimensions=[];
             that.Weightdimensions=[];

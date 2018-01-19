@@ -22,9 +22,10 @@ html, body {
 }
 .color-info{
     background: #fff;
-    margin-top: -80px;
-    width:150px;
-    height:70px;
+    margin-top:-60px;
+    margin-left:260px;
+    width:140px;
+    height:60px;
 }
 
 .color-info p{
@@ -78,6 +79,7 @@ html, body {
     font-weight: 400;
     box-sizing: border-box;
     align-items: center;
+    width: 100%;
     height: 64px;
     margin: 0;
     padding: 22px 10px 0 40px;
@@ -246,12 +248,11 @@ rect.selection {
 }
 
 .demo-content {
-    max-width: 1080px;
+    max-width: 1920px;
+    max-height: 1080px;
 }
 
 .demo-charts {
-    width:700px;
-    margin-top:10px;
     -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
@@ -298,6 +299,7 @@ _:-ms-input-placeholder, :root .demo-graph {
 }
 
 .demo-cards {
+    margin-top: 10px;
     width: 340px;
   -webkit-align-items: flex-start;
       -ms-flex-align: start;
@@ -388,7 +390,7 @@ _:-ms-input-placeholder, :root .demo-graph {
 #weight-field{
     position: relative;
     width: 220px;
-    height: 220px;
+    height: 200px;
     margin:10px;
     font-size: 10pt;
     overflow-y: auto;
@@ -609,7 +611,7 @@ body {
 
 .perfume-comparison-group{
     z-index: 2;
-    width: 310px;
+    width: 100%;
     height: 30px;
 }
 
@@ -713,7 +715,7 @@ body {
 
 #img-container{
     float: left;
-    width:350px;
+    width:100%;
     height:350px;
     padding-bottom: 5px;
 }
@@ -723,8 +725,8 @@ body {
     float: left;
     margin-left: 20px;
     margin-top: 40px;
-    width: 125px;
-    height: 180px;
+    width: 35%;
+    height: 60%;
     background-color: white;
 }
 
@@ -732,8 +734,8 @@ body {
     float: left;
     margin-top: 50px;
     margin-left: 10px;
-    width:135px;
-    height:150px;
+    width:40%;
+    height:50%;
     font-size: 10px;
     background-color:white;
     color: #000 !important;
