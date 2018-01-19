@@ -17,7 +17,40 @@
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
+.gradient-box{
+    height:50px;
+}
+.color-info{
+    background: #fff;
+    margin-top: -80px;
+    width:150px;
+    height:70px;
+}
 
+.color-info p{
+    position: relative;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-size: 10px;
+    margin-top: -5px;
+    margin-left:10px;
+    line-height: 1;
+    letter-spacing: .02em;
+    font-weight: 400;
+}
+
+#daynightColor{
+    width: 140px;
+    height: 60px;
+    padding:10px;
+}
+#ratingColor{
+    width: 140px;
+    height: 60px;
+    padding:10px;
+}
+#brandColor{
+    margin-top: -20px;
+}
 .mdl-layout__header-row{
     margin-right:25%;
 }
@@ -213,7 +246,7 @@ rect.selection {
 }
 
 .demo-content {
-    max-width: 2400px;
+    max-width: 1080px;
 }
 
 .demo-charts {
@@ -345,10 +378,6 @@ _:-ms-input-placeholder, :root .demo-graph {
     font-weight: bold;
 }
 
-#renderer {
-    width: 700px;
-    height: 700px;
-}
 #selectList{
     height: 200px;
     margin:0px;
@@ -359,7 +388,7 @@ _:-ms-input-placeholder, :root .demo-graph {
 #weight-field{
     position: relative;
     width: 220px;
-    height: 170px;
+    height: 220px;
     margin:10px;
     font-size: 10pt;
     overflow-y: auto;
@@ -537,20 +566,20 @@ body {
     align-items: center;
     color: rgba(0, 0, 0, 0.56);
     font-weight: 500;
-    margin-top:10px;
+    margin-top:-35px;
+    margin-bottom: 12px;
 }
 
 .select-box{
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    font-size: 13px;
+    font-size: 14px;
     cursor: pointer;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.56);
-    width: 200px;
-    height: 50px;
+    width: 130px;
     position: relative;
-    left: 10px;
-    background: rgba(255, 255, 255, 0.54);
+    margin-left: 52px;
+    background: rgba(255, 255, 255, 0);
     border:0px;
 }
 
@@ -793,6 +822,7 @@ h1 {
 }
 .color-labels {
     position: relative;
+    margin-top: -32px;
     left: 35px;
 }
 

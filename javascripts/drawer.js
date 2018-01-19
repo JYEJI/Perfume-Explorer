@@ -1,5 +1,7 @@
 var root = d3.select('#renderer').append('svg');
-root.attr('width', 1400).attr('height', 700);
+var windowWidth = $(window).width();
+var windowHeight = $(window).height();
+root.attr('width', windowWidth).attr('height', windowHeight/2+(windowHeight+130)/3);
 
 var numeric=[];
 var brand = "";
@@ -7,6 +9,8 @@ var compare = "";
 var selectedPerfumeName="";
 var prepoint=[];
 var prepoint2=[];
+
+var points = [];
 
 var nWeight = 5;
 var WeightVar = [];
@@ -121,9 +125,8 @@ var Vis = new function () {
     this.dimensions = [];
     this.Weightdimensions = [];
     var that = this;
-    var points = [];
     var parentG = root.append('g')
-        .attr('transform', 'translate(700,350)');
+        .attr('transform', 'translate('+(windowWidth/4+windowWidth/25)+','+(windowHeight/3+windowHeight/9)+')');
 
     var color;
 
@@ -133,9 +136,9 @@ var Vis = new function () {
     this.drawDimension = function (keys,name) {
 
         var g = root.append('g');
-        g.attr('transform', 'translate(700,350)').attr('id',name);
+        g.attr('transform', 'translate('+(windowWidth/4+windowWidth/25)+','+(windowHeight/3+windowHeight/9)+')').attr('id',name);
 
-        var r = 245 + dimensionCount * 30;
+        var r = windowWidth/6 + dimensionCount * 30;
 
         var length = keys.length;
         var Season_color = ["#248F46","#EEB23C","#9D3F22","#195B7F"];
@@ -180,7 +183,7 @@ var Vis = new function () {
 
                 g.style("-webkit-transform", null);
 
-                g.attr("transform", "translate(700,350)rotate(" + rotate + ")");
+                g.attr('transform', 'translate('+(windowWidth/4+windowWidth/25)+','+(windowHeight/3+windowHeight/9)+')');
                 console.log("dm:"+dm);
                 console.log("rotate:"+rotate);
             }
@@ -190,7 +193,7 @@ var Vis = new function () {
         }
 
         function setState(dm){
-            g.attr("transform","translate(700,350)rotate(" + (rotate + dm) + ")");
+            g.attr('transform', 'translate('+(windowWidth/4+windowWidth/25)+','+(windowHeight/3+windowHeight/9)+')');
         }
 
         function add_item(id,dm,dm_name){
@@ -607,8 +610,8 @@ var Vis = new function () {
                 })
             });
             p.circle.transition().duration(1000).attr({
-                cx: x / maxDist * 190,
-                cy: y / maxDist * 190,
+                cx: x / maxDist * (windowWidth/7),
+                cy: y / maxDist * (windowWidth/7),
             });
             if(dimensionCount==0)
                 p.circle.attr({
@@ -726,7 +729,7 @@ var Vis = new function () {
 
         if(keys=="Gender") color = d3.scale.ordinal().range(["#6383ce","#2dad36","#fc821e"]);
         else if(keys=="day/night") color = d3.scale.linear().domain([0, d3.max(points, function(d) {return d.data["day/night"]; })/2, d3.max(points, function(d) {return d.data["day/night"]; })]).range(["#324d7a","#eda46d"]);
-        else if(keys=="Rating") color = d3.scale.linear().domain([0, d3.max(points, function(d) {return d.data["Rating"]; })/2, d3.max(points, function(d) {return d.data["Rating"]; })]).range(["#d7191c","#e76818","#90eb9d","#00a6ca","#2c7bb6"]);
+        else if(keys=="Rating") color = d3.scale.linear().domain([0, d3.max(points, function(d) {return d.data["Rating"]; })/2, d3.max(points, function(d) {return d.data["Rating"]; })]).interpolate(d3.interpolateHcl).range(["#ffffff","#808080","#000000"]);
 
         else if(keys!="Gender"||keys!="day/night"||keys!="Brand")color = d3.scale.ordinal().range("#FF689F","#bababa");
 
@@ -1897,7 +1900,6 @@ var Vis = new function () {
         var attributesText = d3.select("#attributestext");
 
         var count = 0;
-        var ulcount = 0;
 
         function add_item(p){
             // pre_set 에 있는 내용을 읽어와서 처리..
@@ -2082,6 +2084,332 @@ var Vis = new function () {
 
     }
 
+    this.addBrandItem = function (brandName) {
+        var count = 0;
+        var name = brandName;
+
+        function add_item(p){
+            // pre_set 에 있는 내용을 읽어와서 처리..
+            var div = document.createElement('div');
+            var ul = document.createElement('ul');
+            var li = document.createElement('li');
+            var span1 = document.createElement('span');
+            var img = document.createElement('img');
+            var span3 = document.createElement('span');
+            var span4 = document.createElement('span');
+            var div2 = document.createElement('div');
+            var label = document.createElement('label');
+            var input = document.createElement('input');
+
+            document.getElementById('count').textContent = count+1;
+
+            ul.id ="perfume-list";
+            ul.setAttribute("data",p.data["Name"]);
+            ul.className ="demo-list-control mdl-list";
+            ul.style.height = "65px";
+            ul.style.padding = "3px";
+            ul.style.boxShadow=" 0 1px 5px 0 rgba(0,0,0,.12)";
+            if(count==0){
+                ul.style.marginTop ="-5px";
+            }
+            else{
+                ul.style.marginTop ="-10px";
+            }
+            ul.style.marginLeft ="5px";
+
+            li.className ="mdl-list__item";
+            li.style.padding = "0px";
+
+
+            span1.className ="mdl-list__item-primary-content";
+            span4.className="mdl-list__item-sub-title";
+
+            img.id = "select-img"+count;
+            img.src=p.data["Img_url"];
+            img.style.width = "37.5px";
+            img.style.height ="50px";
+            img.style.marginTop="-20px";
+            img.style.marginLeft="10px";
+
+            span3.textContent = p.data["Name"];
+            span4.textContent = p.data["Designer"];
+
+            span3.style.marginTop="-20px";
+            span3.style.marginLeft="35px";
+
+            input.id = "checkbox"+count;
+            //input.className ="mdl-checkbox__input";
+            input.type ="checkbox";
+
+            div2.className ="md-checkbox";
+            //label.className ="mdl-checkbox mdl-js-checkbox";
+            label.htmlFor = "checkbox"+count;
+
+            div2.style.marginTop="-5px";
+
+            div2.appendChild(input);
+            div2.appendChild(label);
+
+            span1.appendChild(img);
+            span1.appendChild(span3);
+            span3.appendChild(span4);
+
+            li.appendChild(span1);
+            //li.appendChild(div2);
+            ul.appendChild(li);
+            div.appendChild(ul);
+
+            componentHandler.upgradeDom('MaterialCheckbox');
+            componentHandler.upgradeElement(div2);
+            componentHandler.upgradeElement(label);
+            componentHandler.upgradeElement(input);
+
+            document.getElementById('selectList').appendChild(div);
+
+            count++;
+        }
+
+        _.forEach(points, function (p) {
+            if(name==p.data["Designer"]){
+                add_item(p);
+            }
+        });
+        $('ul').click(function() {
+            if($(this).hasClass('clicked')){
+                $(this).removeClass('clicked');
+                $(this).css("box-shadow","0 1px 5px 0 rgba(0,0,0,.12)");
+            }
+            else if(!$(this).hasClass('clicked')){
+                if($('ul').hasClass('clicked')){
+                    $('ul').removeClass('clicked');
+                    $('ul').css("box-shadow","0 1px 5px 0 rgba(0,0,0,.12)");
+                }
+
+                $(this).addClass('clicked');
+                $(this).css("box-shadow","2px 4px 8px rgba(0, 0, 0, 0.4)");
+
+                that.appendselectedPerfumeChart($(this).attr('data'));
+                ulcount = 1;
+            }
+        }).hover(
+            function () { $(this).css("opacity","0.4"); },
+            function () { $(this).css("opacity","1"); }
+        );
+    }
+
+    this.appendNodesColorInfor = function (nodecolor) {
+        /* -----------------------------------------------------------------------------
+ * Polylinear Color Scale
+ * ======================
+ * Useful for divergent color scales and showing deviation from some
+ * meaningful midpoint or average.
+ * --------------------------------------------------------------------------- */
+        var min = 0.00,
+            mid = 0.50,
+            max = 1.00;
+
+        d3.selectAll('defs').remove();
+        d3.selectAll('#gradient1-bar').remove();
+        d3.selectAll('#gradient2-bar').remove();
+        d3.selectAll('#daynightColor g').remove();
+
+        d3.selectAll('#gradient3-bar').remove();
+        d3.selectAll('#gradient4-bar').remove();
+        d3.selectAll('#ratingColor g').remove();
+
+        drawKey(min, mid, max, 120, 60);
+
+        /*
+         * min: number, min datum
+         * mid: number, midpoint or average
+         * max: number, max datum
+         * width: number, width of key
+         * height: number, height of key
+         */
+        function drawKey(min, mid, max, width, height) {
+            if(nodecolor=="#daynightColor"){
+                // Scales
+                var colorRange = ["#324d7a","#eda46d"],
+                    color = d3.scale.linear()
+                        .domain([min, mid, max])
+                        .range(colorRange),
+                    x = d3.scale.linear()
+                        .domain([min, max])
+                        .range([0, width])
+
+                var x = d3.scale.linear()
+                    .domain([min, max])
+                    .range([0, width])
+
+                var svg = d3.select(nodecolor);
+
+                // SVG defs
+                var defs = svg
+                    .datum({min: min, mid: mid})
+                    .append('svg:defs')
+
+                // Gradient defs
+                var gradient1 = defs.append('svg:linearGradient')
+                    .attr('id', 'gradient1')
+                var gradient2 = defs.append('svg:linearGradient')
+                    .attr('id', 'gradient2')
+
+                // Gradient 1 stop 1
+                gradient1.append('svg:stop')
+                    .datum({min: min})
+                    .attr('stop-color', function(d) { return color(d.min) })
+                    .attr('offset', '0%')
+
+                // Gradient 1 stop 2
+                gradient1.append('svg:stop')
+                    .datum({mid: mid})
+                    .attr('stop-color', function(d) { return color(d.mid) })
+                    .attr('offset', '100%')
+
+                // Gradient 2 stop 1
+                gradient2.append('svg:stop')
+                    .datum({mid: mid})
+                    .attr('stop-color', function(d) { return color(d.mid) })
+                    .attr('offset', '0%')
+
+                // Gradient 2 stop 2
+                gradient2.append('svg:stop')
+                    .datum({max: max})
+                    .attr('stop-color', function(d) { return color(d.max) })
+                    .attr('offset', '100%')
+
+                // Gradient 1 rect
+                svg
+                    .datum({min: min, mid: mid })
+                    .append('svg:rect')
+                    .attr('id', 'gradient1-bar')
+                    .attr('fill', 'url(#gradient1)')
+                    .attr('width', function(d) { return x(d.mid) })
+                    .attr('height', height-40)
+
+                // Gradient 2 rect
+                svg
+                    .datum({mid: mid, max: max})
+                    .append('svg:rect')
+                    .attr('id', 'gradient2-bar')
+                    .attr('fill', 'url(#gradient2)')
+                    .attr('transform', function(d) { return 'translate(' + x(d.mid) + ',0)'})
+                    .attr('width', function(d) { return x(d.max) - x(d.mid) })
+                    .attr('height', height-40)
+
+
+                var x = d3.scale.ordinal()
+                    .domain(["night", "day"])
+                    .rangePoints([0, width]);
+
+                var xAxis = d3.svg.axis()
+                    .scale(x)
+                    .tickSize([0,0])
+                    .orient("bottom");
+
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr('font-size','8px')
+                    .attr('font-weight','bold')
+                    .attr('transform', 'translate(0,24)')
+                    .call(xAxis);
+
+
+
+
+            }
+            else{
+                // Scales
+                var colorRange = ["#ffffff","#808080","#000000"],
+                    color = d3.scale.linear()
+                        .domain([min, mid, max])
+                        .range(colorRange),
+                    x = d3.scale.linear()
+                        .domain([min, max])
+                        .range([0, width])
+
+                var x = d3.scale.linear()
+                    .domain([min, max])
+                    .range([0, width])
+
+                var svg = d3.select(nodecolor);
+
+                // SVG defs
+                var defs = svg
+                    .datum({min: min, mid: mid})
+                    .append('svg:defs')
+
+                // Gradient defs
+                var gradient1 = defs.append('svg:linearGradient')
+                    .attr('id', 'gradient3')
+                var gradient2 = defs.append('svg:linearGradient')
+                    .attr('id', 'gradient4')
+
+                // Gradient 1 stop 1
+                gradient1.append('svg:stop')
+                    .datum({min: min})
+                    .attr('stop-color', function(d) { return color(d.min) })
+                    .attr('offset', '0%')
+
+                // Gradient 1 stop 2
+                gradient1.append('svg:stop')
+                    .datum({mid: mid})
+                    .attr('stop-color', function(d) { return color(d.mid) })
+                    .attr('offset', '100%')
+
+                // Gradient 2 stop 1
+                gradient2.append('svg:stop')
+                    .datum({mid: mid})
+                    .attr('stop-color', function(d) { return color(d.mid) })
+                    .attr('offset', '0%')
+
+                // Gradient 2 stop 2
+                gradient2.append('svg:stop')
+                    .datum({max: max})
+                    .attr('stop-color', function(d) { return color(d.max) })
+                    .attr('offset', '100%')
+
+                // Gradient 1 rect
+                svg
+                    .datum({min: min, mid: mid })
+                    .append('svg:rect')
+                    .attr('id', 'gradient3-bar')
+                    .attr('fill', 'url(#gradient3)')
+                    .attr('width', function(d) { return x(d.mid) })
+                    .attr('height', height-40)
+
+                // Gradient 2 rect
+                svg
+                    .datum({mid: mid, max: max})
+                    .append('svg:rect')
+                    .attr('id', 'gradient4-bar')
+                    .attr('fill', 'url(#gradient4)')
+                    .attr('transform', function(d) { return 'translate(' + x(d.mid) + ',0)'})
+                    .attr('width', function(d) { return x(d.max) - x(d.mid) })
+                    .attr('height', height-40)
+
+                // Append axis
+                var x = d3.scale.ordinal()
+                    .domain(["low", "high"])
+                    .rangePoints([0, width]);
+
+                var xAxis = d3.svg.axis()
+                    .scale(x)
+                    .tickSize([0,0])
+                    .orient("bottom");
+
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr('font-size','8px')
+                    .attr('font-weight','bold')
+                    .attr('transform', 'translate(0,24)')
+                    .call(xAxis);
+
+            }
+
+        }
+    }
+
     return this;
 };
 
@@ -2093,7 +2421,19 @@ $("select").on("change", function(){
     $( ".select-box option:selected" ).each(function() {
         brand = $( this ).text();
         if(brand!="Brand")
+        {
+            d3.selectAll('#selectList #perfume-list').remove();
+            document.getElementById('count').textContent = 0;
+            count=0;
+            if($('ul').hasClass('clicked')){
+                $(this).removeClass('clicked');
+            }
+
             Vis.updateNodeColor(brand);
+            Vis.addBrandItem(brand);
+
+            $('#brand-name').text(brand);
+        }
         else if(brand=="Brand")
             Vis.updateNodeColor(brand);
     });
@@ -2147,6 +2487,8 @@ $('input:checkbox').click(function () {
         if(this.id=="switch5"){
             if(!$("#switch6").is(':checked')&&!$("#switch7").is(':checked')&&!$("#switch8").is(':checked')){
                 // Add color
+                $(".color-info").show();
+                $("#genderColor").show();
                 var ds = $(this).attr('dimensions');
                 Vis.updateNodeColor(ds);
             }
@@ -2154,8 +2496,13 @@ $('input:checkbox').click(function () {
                 $("#switch6").prop('checked',false);
                 $("#switch7").prop('checked',false);
                 $("#switch8").prop('checked',false);
-                $(".brand-event-group").hide()
-                $(".select-box").hide()
+                $("#daynightColor").hide();
+                $("#ratingColor").hide();
+                $("#brandColor").hide();
+                $("#genderColor").show();
+                brand = "Brand";
+                $('.select-box').val(1);
+                $(".select-box").prop('disabled', 'disabled');
                 var ds = $("#switch5").attr('dimensions');
                 Vis.updateNodeColor(ds);
             }
@@ -2163,52 +2510,71 @@ $('input:checkbox').click(function () {
         else if(this.id=="switch6"){
             if(!$("#switch5").is(':checked')&&!$("#switch7").is(':checked')&&!$("#switch8").is(':checked')){
                 // Add color
+                $(".color-info").show();
+                $("#daynightColor").show();
                 var ds = $(this).attr('dimensions');
                 Vis.updateNodeColor(ds);
+                Vis.appendNodesColorInfor("#daynightColor");
             }
             else if(($("#switch5").is(':checked'))||($("#switch7").is(':checked'))||($("#switch8").is(':checked'))){
                 $("#switch5").prop('checked',false);
                 $("#switch7").prop('checked',false);
                 $("#switch8").prop('checked',false);
-                $(".brand-event-group").hide()
-                $(".select-box").hide()
+                $("#genderColor").hide();
+                $("#ratingColor").hide();
+                $("#brandColor").hide();
+                $("#daynightColor").show();
+                brand = "Brand";
+                $('.select-box').val(1);
+                $(".select-box").prop('disabled', 'disabled');
                 var ds = $("#switch6").attr('dimensions');
                 Vis.updateNodeColor(ds);
+                Vis.appendNodesColorInfor("#daynightColor");
             }
         }
         else if(this.id=="switch7"){
             if(!$("#switch5").is(':checked')&&!$("#switch6").is(':checked')&&!$("#switch8").is(':checked')){
                 // Add color
+                $(".color-info").show();
+                $("#ratingColor").show();
                 var ds = $(this).attr('dimensions');
                 console.log(ds);
                 Vis.updateNodeColor(ds);
+                Vis.appendNodesColorInfor("#ratingColor");
             }
             else if(($("#switch5").is(':checked'))||($("#switch6").is(':checked'))||($("#switch8").is(':checked'))){
                 $("#switch5").prop('checked',false);
                 $("#switch6").prop('checked',false);
                 $("#switch8").prop('checked',false);
-                $(".brand-event-group").hide()
-                $(".select-box").hide()
+                $("#genderColor").hide();
+                $("#daynightColor").hide();
+                $("#brandColor").hide();
+                $("#ratingColor").show();
+                brand = "Brand";
+                $('.select-box').val(1);
+                $(".select-box").prop('disabled', 'disabled');
                 var ds = $("#switch7").attr('dimensions');
-                console.log(ds);
                 Vis.updateNodeColor(ds);
+                Vis.appendNodesColorInfor("#ratingColor");
             }
         }
         else if(this.id=="switch8"){
             if(!$("#switch5").is(':checked')&&!$("#switch6").is(':checked')&&!$("#switch7").is(':checked')){
-                console.log("brand toggle");
+                $(".color-info").show();
                 Vis.updateNodeColor();
-                $(".brand-event-group").show();
-                $(".select-box").show();
+                $("#brandColor").show();
+                $(".select-box").prop('disabled', false);
             }
             else if(($("#switch5").is(':checked'))||($("#switch6").is(':checked'))||($("#switch7").is(':checked'))){
                 $("#switch5").prop('checked',false);
                 $("#switch6").prop('checked',false);
                 $("#switch7").prop('checked',false);
-                console.log("brand toggle");
+                $("#genderColor").hide();
+                $("#daynightColor").hide();
+                $("#ratingColor").hide();
+                $("#brandColor").show();
                 Vis.updateNodeColor();
-                $(".brand-event-group").show()
-                $(".select-box").show()
+                $(".select-box").prop('disabled', false);
             }
         }
         else{
@@ -2226,10 +2592,15 @@ $('input:checkbox').click(function () {
     else{
         if(this.id=="switch5"||this.id=="switch6"||this.id=="switch7"||this.id=="switch8"){
             Vis.updateNodeColor();
-            $(".brand-event-group").hide();
-            $(".select-box").hide();
+            $(".color-info").hide();
+            $("#genderColor").hide();
+            $("#daynightColor").hide();
+            $("#ratingColor").hide();
+            $("#brandColor").hide();
+            //$(".brand-event-group").hide();
             brand = "Brand";
             $('.select-box').val(1);
+            $(".select-box").prop('disabled', 'disabled');
             Vis.updateNodeColor(brand);
         }
         else {
@@ -2259,10 +2630,9 @@ $('input:checkbox').click(function () {
     if($('#switch5').is(':checked')||$("#switch6").is(':checked')||$("#switch7").is(':checked')){
         $('.select-box').prop('disabled', 'disabled');
     }
-    else if(!$('#switch5').is(':checked')&&!$("#switch6").is(':checked')&&!$("#switch7").is(':checked')){
+    else if(!$('#switch5').is(':checked')&&!$("#switch6").is(':checked')&&!$("#switch7").is(':checked')&&!$("#switch8").is(':checked')){
         $('.select-box').prop('disabled', false);
     }
 
 });
-
 
