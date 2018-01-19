@@ -623,7 +623,7 @@ body {
 .comparison-select-box{
     display: none;
     float: right;
-    margin-right:25px;
+    margin-right:50px;
     margin-top: 10px;
     width: 100px;
     height: 20px;
