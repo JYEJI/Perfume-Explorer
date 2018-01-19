@@ -1,7 +1,7 @@
 var root = d3.select('#renderer').append('svg');
 var windowWidth = $(window).width();
 var windowHeight = $(window).height();
-root.attr('width', windowWidth).attr('height', (windowHeight+550)/2);
+root.attr('width', windowWidth-240).attr('height', (windowHeight+550)/2);
 
 var numeric=[];
 var brand = "";
