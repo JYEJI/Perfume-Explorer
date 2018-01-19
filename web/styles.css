@@ -381,7 +381,7 @@ _:-ms-input-placeholder, :root .demo-graph {
 }
 
 #selectList{
-    height: 200px;
+    height: 180px;
     margin:0px;
     font-size: 10pt;
     overflow-y: auto;

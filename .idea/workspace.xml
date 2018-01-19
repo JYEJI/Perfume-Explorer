@@ -21,8 +21,8 @@
           <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/index.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="266">
-                  <caret line="98" column="37" lean-forward="true" selection-start-line="98" selection-start-column="37" selection-end-line="98" selection-end-column="37" />
+                <state relative-caret-position="209">
+                  <caret line="86" column="22" lean-forward="true" selection-start-line="86" selection-start-column="22" selection-end-line="86" selection-end-column="22" />
                   <folding>
                     <element signature="n#style#0;n#text#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                     <element signature="n#header#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -124,7 +124,7 @@
             <entry file="file://$PROJECT_DIR$/styles.css">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="265">
-                  <caret line="624" column="17" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="895" selection-end-column="0" />
+                  <caret line="384" column="15" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="895" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -144,7 +144,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>redrawdimensions</find>
       <find>perfume-content</find>
       <find>color-labels</find>
       <find>updateNodeColor</find>
@@ -174,6 +173,7 @@
       <find>max</find>
       <find>color-in</find>
       <find>siden</find>
+      <find>select</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -311,12 +311,12 @@
       <workItem from="1516363631538" duration="910000" />
       <workItem from="1516364665354" duration="141000" />
       <workItem from="1516364933900" duration="99000" />
-      <workItem from="1516365119120" duration="302000" />
+      <workItem from="1516365119120" duration="538000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="178327000" />
+    <option name="totallyTimeSpent" value="178563000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1613" height="873" extended-state="7" />
@@ -1595,8 +1595,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="98" column="37" lean-forward="true" selection-start-line="98" selection-start-column="37" selection-end-line="98" selection-end-column="37" />
+        <state relative-caret-position="209">
+          <caret line="86" column="22" lean-forward="true" selection-start-line="86" selection-start-column="22" selection-end-line="86" selection-end-column="22" />
           <folding>
             <element signature="n#style#0;n#text#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#header#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -1629,7 +1629,7 @@
     <entry file="file://$PROJECT_DIR$/styles.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="265">
-          <caret line="624" column="17" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="895" selection-end-column="0" />
+          <caret line="384" column="15" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="895" selection-end-column="0" />
           <folding />
         </state>
       </provider>
