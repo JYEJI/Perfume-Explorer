@@ -18,6 +18,10 @@ var key = [];
 
 var colorVar;
 
+var select_perfume_count = 0;
+var pre_seleted_perfume_id =[];
+var pre_seleted_perfume_id2 =[];
+var perfume_name_list =[];
 
 var season =["SPRING","SUMMER","AUTUMN","WINTER"];
 var sillage =["SOFT","MODERATE","HEAVY","ENORMOUS"];
@@ -118,6 +122,73 @@ function testfunc(test) {
         Vis.updateWeight(weigh, nWeight);
     });
 };
+function selectPerfume(item) {
+
+    var item_id = item.getAttribute('id');
+    var perfume_name = item.getAttribute('perfumeName');
+    var checked = item.getAttribute('class');
+
+    console.log(item);
+    if(checked=='not-checked'){
+        select_perfume_count++;
+        item.setAttribute('class','checked');
+        console.log('item checked');
+        console.log(select_perfume_count);
+        if(select_perfume_count<=5)
+        {
+            pre_seleted_perfume_id.push(item_id);
+            perfume_name_list.push(perfume_name);
+            Vis.appendselectedPerfumeChart();
+        }
+        else{
+            $("#"+pre_seleted_perfume_id[pre_seleted_perfume_id.length-5]).prop('checked',false);
+            $("#"+pre_seleted_perfume_id[pre_seleted_perfume_id.length-5]).attr('class','not-checked');
+
+            pre_seleted_perfume_id.push(item_id);
+            pre_seleted_perfume_id.splice(0,1);
+
+            console.log(pre_seleted_perfume_id);
+
+            perfume_name_list=[];
+            for(var i=0;i<pre_seleted_perfume_id.length;i++){
+                perfume_name_list.push($('#'+pre_seleted_perfume_id[i]).attr('perfumeName'));
+            }
+            console.log(perfume_name_list);
+
+            d3.selectAll("#img0").style("display","none");
+            d3.selectAll("#img1").style("display","none");
+            d3.selectAll("#img2").style("display","none");
+            d3.selectAll("#img3").style("display","none");
+            d3.selectAll("#img4").style("display","none");
+            Vis.appendselectedPerfumeChart();
+
+            select_perfume_count--;
+
+        }
+    }
+    else{
+        select_perfume_count--;
+        item.setAttribute('class','not-checked');
+
+        pre_seleted_perfume_id.splice(pre_seleted_perfume_id.indexOf(item_id),1);
+        console.log(pre_seleted_perfume_id);
+
+        perfume_name_list=[];
+        for(var i=0;i<pre_seleted_perfume_id.length;i++){
+            perfume_name_list.push($('#'+pre_seleted_perfume_id[i]).attr('perfumeName'));
+        }
+        console.log(perfume_name_list);
+
+        d3.selectAll("#img0").style("display","none");
+        d3.selectAll("#img1").style("display","none");
+        d3.selectAll("#img2").style("display","none");
+        d3.selectAll("#img3").style("display","none");
+        d3.selectAll("#img4").style("display","none");
+
+        Vis.appendselectedPerfumeChart();
+
+    }
+}
 
 var Vis = new function () {
 
@@ -1108,6 +1179,13 @@ var Vis = new function () {
 
         _.forEach(points, function (p) {
             p.circle.on("click", function (d) {
+                d3.select("#perfume-content").style("display","block");
+                d3.selectAll("#img0").style("display","none");
+                d3.selectAll("#img1").style("display","none");
+                d3.selectAll("#img2").style("display","none");
+                d3.selectAll("#img3").style("display","none");
+                d3.selectAll("#img4").style("display","none");
+
                 prepoint2 =[];
 
                 prepoint.push(p.data);
@@ -1345,13 +1423,12 @@ var Vis = new function () {
 
     };
 
-    this.appendselectedPerfumeChart = function (perfume_name) {
-        console.log(perfume_name.replace(/ /gi, ""));
+    this.appendselectedPerfumeChart = function () {
 
-        var name = perfume_name.replace(/ /gi, "");
-
+        d3.select("#img").style('display','none');
         d3.select("#barchart").remove();
         d3.select("#radarChart").remove();
+        d3.select("#perfume-content").style("display","block");
 
         RadarChart.defaultConfig.color = function() {};
         RadarChart.defaultConfig.radius = 3;
@@ -1373,434 +1450,1612 @@ var Vis = new function () {
         var svg = subview.select("#perfume-vote").append("svg").attr("id","barchart")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom);
+
         var data=[];
+        var Data=[];
 
-        if(prepoint2.length>=1)
-        {
+        if(perfume_name_list.length<=5){
+            Data=[
+                {
+                    className: '', // optional can be used for styling
+                    axes: []
+                }
+            ];
+            for(var i=0;i<perfume_name_list.length;i++){
 
-            if (compare == "Season") {
-                data = [
-                    {
-                        className: 'Season', // optional can be used for styling
-                        axes: [
-                            {axis: season[0], value: prepoint2[prepoint2.length-1]["spring"]},
-                            {axis: season[1], value: prepoint2[prepoint2.length-1]["summer"]},
-                            {axis: season[2], value: prepoint2[prepoint2.length-1]["autumn"]},
-                            {axis: season[3], value: prepoint2[prepoint2.length-1]["winter"]}
-                        ]
-                    }
-                ];
-            }
-            else if (compare == "Sillage") {
-                data = [
-                    {
-                        className: 'Sillage', // optional can be used for styling
-                        axes: [
-                            {axis: sillage[0], value: prepoint2[prepoint2.length-1]["sillagesoft"]},
-                            {axis: sillage[1], value: prepoint2[prepoint2.length-1]["sillagemoderate"]},
-                            {axis: sillage[2], value: prepoint2[prepoint2.length-1]["sillageheavy"]},
-                            {axis: sillage[3], value: prepoint2[prepoint2.length-1]["sillageenormous"]}
-                        ]
-                    }
-                ];
-            }
-            else if (compare == "Longevity") {
-                data = [
-                    {
-                        className: 'Longevity', // optional can be used for styling
-                        axes: [
-                            {axis: longevity[0], value: prepoint2[prepoint2.length-1]["longevitypoor"]},
-                            {axis: longevity[1], value: prepoint2[prepoint2.length-1]["longevityweak"]},
-                            {axis: longevity[2], value: prepoint2[prepoint2.length-1]["longevitymoderate"]},
-                            {axis: longevity[3], value: prepoint2[prepoint2.length-1]["longevitylonglasting"]},
-                            {axis: longevity[4], value: prepoint2[prepoint2.length-1]["longevityverylonglasting"]}
-                        ]
-                    }
-                ];
-            }
-            else if (compare == "Notes") {
-                data = [
-                    {
-                        className: ['Notes'], // optional can be used for styling
-                        axes: [
-                            {axis: notes[0], value: prepoint2[prepoint2.length-1]["MUSK__AMBER__ANIMALIC_SMELLS"]},
-                            {axis: notes[1], value: prepoint2[prepoint2.length-1]["SWEETS_AND_GOURMAND_SMELLS"]},
-                            {axis: notes[2], value: prepoint2[prepoint2.length-1]["RESINS_AND_BALSAMS"]},
-                            {axis: notes[3], value: prepoint2[prepoint2.length-1]["SPICES"]},
-                            {axis: notes[4], value: prepoint2[prepoint2.length-1]["WOODS_AND_MOSSES"]},
-                            {axis: notes[5], value: prepoint2[prepoint2.length-1]["BEVERAGES"]},
-                            {axis: notes[6], value: prepoint2[prepoint2.length-1]["CITRUS_SMELLS"]},
-                            {axis: notes[7], value: prepoint2[prepoint2.length-1]["NATURAL_AND_SYNTHETIC__POPULAR_AND_WEIRD"]},
-                            {axis: notes[8], value: prepoint2[prepoint2.length-1]["GREENS__HERBS_AND_FOUGERES"]},
-                            {axis: notes[9], value: prepoint2[prepoint2.length-1]["FRUITS__VEGETABLES_AND_NUTS"]},
-                            {axis: notes[10], value: prepoint2[prepoint2.length-1]["FLOWERS"]},
-                            {axis: notes[11], value: prepoint2[prepoint2.length-1]["WHITE_FLOWERS"]}
-                        ]
-                    }
-                ];
-            }
+                _.forEach(points, function (p) {
+                        if (p.data['Name'] == perfume_name_list[i]){
 
-            d3.select("#radarChart").remove();
+                            var img = subview.select("#img"+i).data(["Img_url"]);
+                            img.style("display","block");
+                            img.attr("src",p.data["Img_url"]);
 
-            var chart = RadarChart.chart();
-            var cfg = chart.config({
-                containerClass: 'radar-chart', // target with css, the default stylesheet targets .radar-chart
-                w: 200,
-                h: 200,
-                factor: 0.8,
-                factorLegend: 0.95,
-                levels: 3,
-                maxValue: 0,
-                minValue: 0,
-                radians: 2 * Math.PI,
-                color: function(i) {
-                    c = ["#dd2e36"];
-                    return c[i]},//color: d3.scale.category10(), // pass a noop (function() {}) to decide color via css
-                axisLine: true,
-                axisText: true,
-                circles: true,
-                radius: 0,
-                open: false,  // whether or not the last axis value should connect back to the first axis value
-                              // if true, consider modifying the chart opacity (see "Style with CSS" section above)
-                axisJoin: function (d, i) {
-                    return d.className || i;
-                },
-                tooltipFormatValue: function (d) {
-                    return d;
-                },
-                tooltipFormatClass: function (d) {
-                    return d;
-                },
-                transitionDuration: 300,
-                facet: false,
-                levelScale: 0.85,
-                labelScale: 5.0,
-                facetPaddingScale: 2.1,
-                showLevels: true,
-                showLevelsLabels: true,
-                showAxesLabels: true,
-                showAxes: true,
-                showLegend: true,
-                showVertices: true,
-                showPolygons: true,
-                polygonAreaOpacity: 0.3,
-                polygonStrokeOpacity: 1,
-                polygonPointSize: 4,
-                legendBoxSize: 50,
-                legendPosition: {x: 20, y: 20},
-                paddingX: 10,
-                paddingY: 30
-            });
+                            prepoint =[];
+                            prepoint2.push(p.data);
 
-            var svg = d3.select('.radar-chart').append('svg').attr("id","radarChart");
-            svg.attr('width', 200).attr('height', 200);
-            svg.append('g').classed('single', 1).datum(data).call(chart);
+                            if(prepoint2.length>=1)
+                            {
 
-            var data =[{"name": "love","value": prepoint2[prepoint2.length-1]["love"]}, {"name": "like","value": prepoint2[prepoint2.length-1]["like"]},{"name": "dislike","value": prepoint2[prepoint2.length-1]["dislike"]}];
+                                if (compare == "Season") {
+                                    if(i==0){
+                                        Data =[
+                                            {
+                                                className: p.data["Name"], // optional can be used for styling
+                                                axes: [
+                                                    {axis: season[0], value: p.data["spring"]},
+                                                    {axis: season[1], value: p.data["summer"]},
+                                                    {axis: season[2], value: p.data["autumn"]},
+                                                    {axis: season[3], value: p.data["winter"]}
+                                                ]
+                                            }
+                                        ];
+                                    }
+                                    else{
+                                        Data.push({
+                                            className: p.data["Name"], // optional can be used for styling
+                                            axes: [
+                                                {axis: season[0], value: p.data["spring"]},
+                                                {axis: season[1], value: p.data["summer"]},
+                                                {axis: season[2], value: p.data["autumn"]},
+                                                {axis: season[3], value: p.data["winter"]}
+                                            ]
+                                        });
+                                    }
+                                    console.log(Data)
+                                }
+                                else if (compare == "Sillage") {
+                                    if(i==0){
+                                        Data =[
+                                            {
+                                                className: p.data["Name"], // optional can be used for styling
+                                                axes: [
+                                                    {axis: sillage[0], value: p.data["sillagesoft"]},
+                                                    {axis: sillage[1], value: p.data["sillagemoderate"]},
+                                                    {axis: sillage[2], value: p.data["sillageheavy"]},
+                                                    {axis: sillage[3], value: p.data["sillageenormous"]}
+                                                ]
+                                            }
+                                        ];
+                                    }
+                                    else{
+                                        Data.push({
+                                            className: p.data["Name"], // optional can be used for styling
+                                            axes: [
+                                                {axis: sillage[0], value: p.data["sillagesoft"]},
+                                                {axis: sillage[1], value: p.data["sillagemoderate"]},
+                                                {axis: sillage[2], value: p.data["sillageheavy"]},
+                                                {axis: sillage[3], value: p.data["sillageenormous"]}
+                                            ]
+                                        });
+                                    }
+                                    console.log(Data)
+                                }
+                                else if (compare == "Longevity") {
+                                    if(i==0){
+                                        Data =[
+                                            {
+                                                className: p.data["Name"], // optional can be used for styling
+                                                axes: [
+                                                    {axis: longevity[0], value: p.data["longevitypoor"]},
+                                                    {axis: longevity[1], value: p.data["longevityweak"]},
+                                                    {axis: longevity[2], value: p.data["longevitymoderate"]},
+                                                    {axis: longevity[3], value: p.data["longevitylonglasting"]},
+                                                    {axis: longevity[4], value: p.data["longevityverylonglasting"]}
+                                                ]
+                                            }
+                                        ];
+                                    }
+                                    else{
+                                        Data.push({
+                                            className: p.data["Name"], // optional can be used for styling
+                                            axes: [
+                                                {axis: longevity[0], value: p.data["longevitypoor"]},
+                                                {axis: longevity[1], value: p.data["longevityweak"]},
+                                                {axis: longevity[2], value: p.data["longevitymoderate"]},
+                                                {axis: longevity[3], value: p.data["longevitylonglasting"]},
+                                                {axis: longevity[4], value: p.data["longevityverylonglasting"]}
+                                            ]
+                                        });
+                                    }
+                                    console.log(Data)
 
-            //sort bars based on value
-            data = data.sort(function (a, b) {
-                return d3.ascending(a.value, b.value);
-            });
+                                }
+                                else if (compare == "Notes") {
+                                    if(i==0){
+                                        Data =[
+                                            {
+                                                className: p.data["Name"], // optional can be used for styling
+                                                axes: [
+                                                    {axis: notes[0], value: p.data["MUSK__AMBER__ANIMALIC_SMELLS"]},
+                                                    {axis: notes[1], value: p.data["SWEETS_AND_GOURMAND_SMELLS"]},
+                                                    {axis: notes[2], value: p.data["RESINS_AND_BALSAMS"]},
+                                                    {axis: notes[3], value: p.data["SPICES"]},
+                                                    {axis: notes[4], value: p.data["WOODS_AND_MOSSES"]},
+                                                    {axis: notes[5], value: p.data["BEVERAGES"]},
+                                                    {axis: notes[6], value: p.data["CITRUS_SMELLS"]},
+                                                    {axis: notes[7], value: p.data["NATURAL_AND_SYNTHETIC__POPULAR_AND_WEIRD"]},
+                                                    {axis: notes[8], value: p.data["GREENS__HERBS_AND_FOUGERES"]},
+                                                    {axis: notes[9], value: p.data["FRUITS__VEGETABLES_AND_NUTS"]},
+                                                    {axis: notes[10], value: p.data["FLOWERS"]},
+                                                    {axis: notes[11], value: p.data["WHITE_FLOWERS"]}
+                                                ]
+                                            }
+                                        ];
+                                    }
+                                    else{
+                                        Data.push({
+                                            className: p.data["Name"], // optional can be used for styling
+                                            axes: [
+                                                {axis: notes[0], value: p.data["MUSK__AMBER__ANIMALIC_SMELLS"]},
+                                                {axis: notes[1], value: p.data["SWEETS_AND_GOURMAND_SMELLS"]},
+                                                {axis: notes[2], value: p.data["RESINS_AND_BALSAMS"]},
+                                                {axis: notes[3], value: p.data["SPICES"]},
+                                                {axis: notes[4], value: p.data["WOODS_AND_MOSSES"]},
+                                                {axis: notes[5], value: p.data["BEVERAGES"]},
+                                                {axis: notes[6], value: p.data["CITRUS_SMELLS"]},
+                                                {axis: notes[7], value: p.data["NATURAL_AND_SYNTHETIC__POPULAR_AND_WEIRD"]},
+                                                {axis: notes[8], value: p.data["GREENS__HERBS_AND_FOUGERES"]},
+                                                {axis: notes[9], value: p.data["FRUITS__VEGETABLES_AND_NUTS"]},
+                                                {axis: notes[10], value: p.data["FLOWERS"]},
+                                                {axis: notes[11], value: p.data["WHITE_FLOWERS"]}
+                                            ]
+                                        });
+                                    }
+                                    console.log(Data)
+                                }
 
-            d3.select("#barchart").remove();
+                                d3.select("#radarChart").remove();
 
-            var svg = subview.select("#perfume-vote").append("svg").attr("id","barchart")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate(5,15)");
+                                var chart = RadarChart.chart();
+                                var cfg = chart.config({
+                                    containerClass: 'radar-chart', // target with css, the default stylesheet targets .radar-chart
+                                    w: 200,
+                                    h: 200,
+                                    factor: 0.8,
+                                    factorLegend: 0.95,
+                                    levels: 3,
+                                    maxValue: 0,
+                                    minValue: 0,
+                                    radians: 2 * Math.PI,
+                                    color: function(i) {
+                                        c = ["#E10B7B", "#CA1C82", "#9A1931", "#B85B27", "#BF8837",
+                                            "#8C844F", "#EEB23C", "#2B9555", "#7DBA55", "#EB7823", "#E6362C", "#E86EA3"];
+                                        return c[i]},//color: d3.scale.category10(), // pass a noop (function() {}) to decide color via css
+                                    axisLine: true,
+                                    axisText: true,
+                                    circles: true,
+                                    radius: 0,
+                                    open: false,  // whether or not the last axis value should connect back to the first axis value
+                                                  // if true, consider modifying the chart opacity (see "Style with CSS" section above)
+                                    axisJoin: function (d, i) {
+                                        return d.className || i;
+                                    },
+                                    tooltipFormatValue: function (d) {
+                                        return d;
+                                    },
+                                    tooltipFormatClass: function (d) {
+                                        return d;
+                                    },
+                                    transitionDuration: 300,
+                                    facet: false,
+                                    levelScale: 0.85,
+                                    labelScale: 5.0,
+                                    facetPaddingScale: 2.1,
+                                    showLevels: true,
+                                    showLevelsLabels: true,
+                                    showAxesLabels: true,
+                                    showAxes: true,
+                                    showLegend: true,
+                                    showVertices: true,
+                                    showPolygons: true,
+                                    polygonAreaOpacity: 0.3,
+                                    polygonStrokeOpacity: 1,
+                                    polygonPointSize: 4,
+                                    legendBoxSize: 50,
+                                    legendPosition: {x: 20, y: 20},
+                                    paddingX: 10,
+                                    paddingY: 30
+                                });
 
-            subview.select("#barchart").append("text").text("Vote").attr("transform", "translate(10,"+margin.top+")").style("font-weight","bold");
+                                var svg = d3.select('.radar-chart').append('svg').attr("id","radarChart");
+                                svg.attr('width', 200).attr('height', 200);
+                                svg.append('g').classed('single', 1).datum(Data).call(chart);
 
-            var x = d3.scale.linear()
-                .range([0, width-120])
-                .domain([0, d3.max(data, function (d) {
-                    return d.value;
-                })]);
+                                var data =[{"name": "love","value": prepoint2[prepoint2.length-1]["love"]}, {"name": "like","value": prepoint2[prepoint2.length-1]["like"]},{"name": "dislike","value": prepoint2[prepoint2.length-1]["dislike"]}];
 
-            var y = d3.scale.ordinal()
-                .rangeRoundBands([height-30, 0], 1)
-                .domain(data.map(function (d) {
-                    return d.name;
-                }));
+                                //sort bars based on value
+                                data = data.sort(function (a, b) {
+                                    return d3.ascending(a.value, b.value);
+                                });
 
-            //make y axis to show bar names
-            var yAxis = d3.svg.axis()
-                .scale(y)
-                //no tick marks
-                .tickSize(0)
-                .orient("left");
+                                d3.select("#barchart").remove();
 
-            var gy = svg.append("g")
-                .attr("class", "y axis")
-                .attr("transform", "translate(40,0)")
-                .call(yAxis);
+                                var svg = subview.select("#perfume-vote").append("svg").attr("id","barchart")
+                                    .attr("width", width + margin.left + margin.right)
+                                    .attr("height", height + margin.top + margin.bottom)
+                                    .append("g")
+                                    .attr("transform", "translate(5,15)");
 
-            var bars = svg.selectAll(".bar")
-                .data(data)
-                .enter()
-                .append("g");
+                                subview.select("#barchart").append("text").text("Vote").attr("transform", "translate(10,"+margin.top+")").style("font-weight","bold");
 
-            //append rects
-            bars.append("rect")
-                .style("fill","#d3d3d3")
-                .attr("class", "bar")
-                .attr("y", function (d) {
-                    return y(d.name)-10;
-                })
-                .attr("height", 20)
-                .attr("x", 50)
-                .attr("width", function (d) {
-                    return x(d.value);
+                                var x = d3.scale.linear()
+                                    .range([0, width-120])
+                                    .domain([0, d3.max(data, function (d) {
+                                        return d.value;
+                                    })]);
+
+                                var y = d3.scale.ordinal()
+                                    .rangeRoundBands([height-30, 0], 1)
+                                    .domain(data.map(function (d) {
+                                        return d.name;
+                                    }));
+
+                                //make y axis to show bar names
+                                var yAxis = d3.svg.axis()
+                                    .scale(y)
+                                    //no tick marks
+                                    .tickSize(0)
+                                    .orient("left");
+
+                                var gy = svg.append("g")
+                                    .attr("class", "y axis")
+                                    .attr("transform", "translate(40,0)")
+                                    .call(yAxis);
+
+                                var bars = svg.selectAll(".bar")
+                                    .data(data)
+                                    .enter()
+                                    .append("g");
+
+                                //append rects
+                                bars.append("rect")
+                                    .style("fill","#d3d3d3")
+                                    .attr("class", "bar")
+                                    .attr("y", function (d) {
+                                        return y(d.name)-10;
+                                    })
+                                    .attr("height", 20)
+                                    .attr("x", 50)
+                                    .attr("width", function (d) {
+                                        return x(d.value);
+                                    });
+
+                                //add a value label to the right of each bar
+                                bars.append("text")
+                                    .attr("class", "label")
+                                    //y position of the label is halfway down the bar
+                                    .attr("y", function (d) {
+                                        return y(d.name);
+                                    })
+                                    //x position is 3 pixels to the right of the bar
+                                    .attr("x", function (d) {
+                                        return x(d.value) + 60;
+                                    })
+                                    .text(function (d) {
+                                        return d.value.substring(0,4);
+                                    });
+
+                                var polygon =  d3.select("#radarChart").selectAll(".area").data(data, cfg.axisJoin);
+                                polygon
+                                    .on("click", function () {
+                                        var pname = this.getAttribute('class').substring(24,this.getAttribute('class').length);
+                                        console.log(pname);
+                                        _.forEach(points,function (p) {
+                                            if(p.data["Name"]==pname){
+                                                var perfume_name = subview.select("#perfume-name").data(["Name"]);
+                                                perfume_name.exit().remove();
+                                                perfume_name.enter().append("p");
+                                                perfume_name.text("Name").style("font-weight","bold").style("margin-left","10px").style("margin-top","10px")
+                                                perfume_name.append("text").text(": "+p.data["Name"]).style("font-weight","normal");
+
+                                                var perfume_brand = subview.select("#perfume-brand").data(["Designer"]);
+                                                perfume_brand.exit().remove();
+                                                perfume_brand.enter().append("p");
+                                                perfume_brand.text("Brand").style("font-weight","bold").style("margin-left","10px")
+                                                perfume_brand.append("text").text(": "+p.data["Designer"]).style("font-weight","normal");
+
+                                                var perfume_gender = subview.select("#perfume-gender").data(["Gender"]);
+                                                perfume_gender.exit().remove();
+                                                perfume_gender.enter().append("p");
+                                                perfume_gender.text("Gender").style("font-weight","bold").style("margin-left","10px")
+                                                perfume_gender.append("text").text(": "+p.data["Gender"]).style("font-weight","normal");
+
+
+                                                var data =[{"name": "love","value": p.data["love"]}, {"name": "like","value": p.data["like"]},{"name": "dislike","value": p.data["dislike"]}];
+
+                                                //sort bars based on value
+                                                data = data.sort(function (a, b) {
+                                                    return d3.ascending(a.value, b.value);
+                                                });
+
+                                                d3.select("#barchart").remove();
+
+                                                var svg = subview.select("#perfume-vote").append("svg").attr("id","barchart")
+                                                    .attr("width", width + margin.left + margin.right)
+                                                    .attr("height", height + margin.top + margin.bottom)
+                                                    .append("g")
+                                                    .attr("transform", "translate(5,15)");
+
+                                                subview.select("#barchart").append("text").text("Vote").attr("transform", "translate(10,"+margin.top+")").style("font-weight","bold");
+
+                                                var x = d3.scale.linear()
+                                                    .range([0, width-120])
+                                                    .domain([0, d3.max(data, function (d) {
+                                                        return d.value;
+                                                    })]);
+
+                                                var y = d3.scale.ordinal()
+                                                    .rangeRoundBands([height-30, 0], 1)
+                                                    .domain(data.map(function (d) {
+                                                        return d.name;
+                                                    }));
+
+                                                //make y axis to show bar names
+                                                var yAxis = d3.svg.axis()
+                                                    .scale(y)
+                                                    //no tick marks
+                                                    .tickSize(0)
+                                                    .orient("left");
+
+                                                var gy = svg.append("g")
+                                                    .attr("class", "y axis")
+                                                    .attr("transform", "translate(40,0)")
+                                                    .call(yAxis);
+
+                                                var bars = svg.selectAll(".bar")
+                                                    .data(data)
+                                                    .enter()
+                                                    .append("g");
+
+                                                //append rects
+                                                bars.append("rect")
+                                                    .style("fill","#d3d3d3")
+                                                    .attr("class", "bar")
+                                                    .attr("y", function (d) {
+                                                        return y(d.name)-10;
+                                                    })
+                                                    .attr("height", 20)
+                                                    .attr("x", 50)
+                                                    .attr("width", function (d) {
+                                                        return x(d.value);
+                                                    });
+
+                                                //add a value label to the right of each bar
+                                                bars.append("text")
+                                                    .attr("class", "label")
+                                                    //y position of the label is halfway down the bar
+                                                    .attr("y", function (d) {
+                                                        return y(d.name);
+                                                    })
+                                                    //x position is 3 pixels to the right of the bar
+                                                    .attr("x", function (d) {
+                                                        return x(d.value) + 60;
+                                                    })
+                                                    .text(function (d) {
+                                                        return d.value.substring(0,4);
+                                                    });
+                                            }
+                                        });
+                                    })
+                                    .on('mouseover', function (){
+                                        $(this).css('opacity','0.7')
+                                    })
+                                    .on('mouseout', function(){
+                                        $(this).css('opacity','1.0')
+                                    });
+
+                            }
+
+                            if(compare)
+                            {
+                                    if (compare == "Season") {
+                                        if(i==0){
+                                            Data =[
+                                                    {
+                                                        className: p.data["Name"], // optional can be used for styling
+                                                        axes: [
+                                                            {axis: season[0], value: p.data["spring"]},
+                                                            {axis: season[1], value: p.data["summer"]},
+                                                            {axis: season[2], value: p.data["autumn"]},
+                                                            {axis: season[3], value: p.data["winter"]}
+                                                        ]
+                                                    }
+                                            ];
+                                        }
+                                        else{
+                                            Data.push({
+                                                className: p.data["Name"], // optional can be used for styling
+                                                axes: [
+                                                    {axis: season[0], value: p.data["spring"]},
+                                                    {axis: season[1], value: p.data["summer"]},
+                                                    {axis: season[2], value: p.data["autumn"]},
+                                                    {axis: season[3], value: p.data["winter"]}
+                                                ]
+                                            });
+                                        }
+                                        console.log(Data)
+                                    }
+                                    else if (compare == "Sillage") {
+                                        if(i==0){
+                                            Data =[
+                                                {
+                                                    className: p.data["Name"], // optional can be used for styling
+                                                    axes: [
+                                                        {axis: sillage[0], value: p.data["sillagesoft"]},
+                                                        {axis: sillage[1], value: p.data["sillagemoderate"]},
+                                                        {axis: sillage[2], value: p.data["sillageheavy"]},
+                                                        {axis: sillage[3], value: p.data["sillageenormous"]}
+                                                    ]
+                                                }
+                                            ];
+                                        }
+                                        else{
+                                            Data.push({
+                                                className: p.data["Name"], // optional can be used for styling
+                                                axes: [
+                                                    {axis: sillage[0], value: p.data["sillagesoft"]},
+                                                    {axis: sillage[1], value: p.data["sillagemoderate"]},
+                                                    {axis: sillage[2], value: p.data["sillageheavy"]},
+                                                    {axis: sillage[3], value: p.data["sillageenormous"]}
+                                                ]
+                                            });
+                                        }
+                                        console.log(Data)
+                                    }
+                                    else if (compare == "Longevity") {
+                                        if(i==0){
+                                            Data =[
+                                                {
+                                                    className: p.data["Name"], // optional can be used for styling
+                                                    axes: [
+                                                        {axis: longevity[0], value: p.data["longevitypoor"]},
+                                                        {axis: longevity[1], value: p.data["longevityweak"]},
+                                                        {axis: longevity[2], value: p.data["longevitymoderate"]},
+                                                        {axis: longevity[3], value: p.data["longevitylonglasting"]},
+                                                        {axis: longevity[4], value: p.data["longevityverylonglasting"]}
+                                                    ]
+                                                }
+                                            ];
+                                        }
+                                        else{
+                                            Data.push({
+                                                className: p.data["Name"], // optional can be used for styling
+                                                axes: [
+                                                    {axis: longevity[0], value: p.data["longevitypoor"]},
+                                                    {axis: longevity[1], value: p.data["longevityweak"]},
+                                                    {axis: longevity[2], value: p.data["longevitymoderate"]},
+                                                    {axis: longevity[3], value: p.data["longevitylonglasting"]},
+                                                    {axis: longevity[4], value: p.data["longevityverylonglasting"]}
+                                                ]
+                                            });
+                                        }
+                                        console.log(Data)
+
+                                    }
+                                    else if (compare == "Notes") {
+                                        if(i==0){
+                                            Data =[
+                                                {
+                                                    className: p.data["Name"], // optional can be used for styling
+                                                    axes: [
+                                                        {axis: notes[0], value: p.data["MUSK__AMBER__ANIMALIC_SMELLS"]},
+                                                        {axis: notes[1], value: p.data["SWEETS_AND_GOURMAND_SMELLS"]},
+                                                        {axis: notes[2], value: p.data["RESINS_AND_BALSAMS"]},
+                                                        {axis: notes[3], value: p.data["SPICES"]},
+                                                        {axis: notes[4], value: p.data["WOODS_AND_MOSSES"]},
+                                                        {axis: notes[5], value: p.data["BEVERAGES"]},
+                                                        {axis: notes[6], value: p.data["CITRUS_SMELLS"]},
+                                                        {axis: notes[7], value: p.data["NATURAL_AND_SYNTHETIC__POPULAR_AND_WEIRD"]},
+                                                        {axis: notes[8], value: p.data["GREENS__HERBS_AND_FOUGERES"]},
+                                                        {axis: notes[9], value: p.data["FRUITS__VEGETABLES_AND_NUTS"]},
+                                                        {axis: notes[10], value: p.data["FLOWERS"]},
+                                                        {axis: notes[11], value: p.data["WHITE_FLOWERS"]}
+                                                    ]
+                                                }
+                                            ];
+                                        }
+                                        else{
+                                            Data.push({
+                                                className: p.data["Name"], // optional can be used for styling
+                                                axes: [
+                                                    {axis: notes[0], value: p.data["MUSK__AMBER__ANIMALIC_SMELLS"]},
+                                                    {axis: notes[1], value: p.data["SWEETS_AND_GOURMAND_SMELLS"]},
+                                                    {axis: notes[2], value: p.data["RESINS_AND_BALSAMS"]},
+                                                    {axis: notes[3], value: p.data["SPICES"]},
+                                                    {axis: notes[4], value: p.data["WOODS_AND_MOSSES"]},
+                                                    {axis: notes[5], value: p.data["BEVERAGES"]},
+                                                    {axis: notes[6], value: p.data["CITRUS_SMELLS"]},
+                                                    {axis: notes[7], value: p.data["NATURAL_AND_SYNTHETIC__POPULAR_AND_WEIRD"]},
+                                                    {axis: notes[8], value: p.data["GREENS__HERBS_AND_FOUGERES"]},
+                                                    {axis: notes[9], value: p.data["FRUITS__VEGETABLES_AND_NUTS"]},
+                                                    {axis: notes[10], value: p.data["FLOWERS"]},
+                                                    {axis: notes[11], value: p.data["WHITE_FLOWERS"]}
+                                                ]
+                                            });
+                                        }
+                                        console.log(Data)
+                                    }
+
+                                d3.select("#radarChart").remove();
+                                var chart = RadarChart.chart();
+                                var cfg = chart.config({
+                                    containerClass: 'radar-chart', // target with css, the default stylesheet targets .radar-chart
+                                    w: 200,
+                                    h: 200,
+                                    factor: 0.8,
+                                    factorLegend: 0.95,
+                                    levels: 3,
+                                    maxValue: 0,
+                                    minValue: 0,
+                                    radians: 2 * Math.PI,
+                                    /*color: function(i) {
+                                        c = ["#E10B7B", "#CA1C82", "#9A1931", "#B85B27", "#BF8837",
+                                            "#8C844F", "#EEB23C", "#2B9555", "#7DBA55", "#EB7823", "#E6362C", "#E86EA3"];
+                                        return c[i]},*/
+                                    color: d3.scale.category10(), // pass a noop (function() {}) to decide color via css
+                                    axisLine: true,
+                                    axisText: true,
+                                    circles: true,
+                                    radius: 0,
+                                    open: false,  // whether or not the last axis value should connect back to the first axis value
+                                                  // if true, consider modifying the chart opacity (see "Style with CSS" section above)
+                                    axisJoin: function (d, i) {
+                                        return d.className || i;
+                                    },
+                                    tooltipFormatValue: function (d) {
+                                        return d;
+                                    },
+                                    tooltipFormatClass: function (d) {
+                                        return d;
+                                    },
+                                    transitionDuration: 300,
+                                    facet: false,
+                                    levelScale: 0.85,
+                                    labelScale: 5.0,
+                                    facetPaddingScale: 2.1,
+                                    showLevels: true,
+                                    showLevelsLabels: true,
+                                    showAxesLabels: true,
+                                    showAxes: true,
+                                    showLegend: true,
+                                    showVertices: true,
+                                    showPolygons: true,
+                                    polygonAreaOpacity: 0.3,
+                                    polygonStrokeOpacity: 1,
+                                    polygonPointSize: 4,
+                                    legendBoxSize: 50,
+                                    legendPosition: {x: 20, y: 20},
+                                    paddingX: 10,
+                                    paddingY: 30
+                                });
+
+                                var svg = d3.select('.radar-chart').append('svg').attr("id","radarChart");
+                                svg.attr('width', 200).attr('height', 200);
+                                svg.append('g')
+                                    .classed('single', 1)
+                                    .datum(Data)
+                                    .call(chart)
+                                var selectbox = subview.select(".comparison-select-box");
+                                selectbox.style("display","block");
+
+
+                                var perfume_name = subview.select("#perfume-name").data(["Name"]);
+                                perfume_name.exit().remove();
+                                perfume_name.enter().append("p");
+                                perfume_name.text("Name").style("font-weight","bold").style("margin-left","10px").style("margin-top","10px")
+                                perfume_name.append("text").text(": "+p.data["Name"]).style("font-weight","normal");
+
+                                var perfume_brand = subview.select("#perfume-brand").data(["Designer"]);
+                                perfume_brand.exit().remove();
+                                perfume_brand.enter().append("p");
+                                perfume_brand.text("Brand").style("font-weight","bold").style("margin-left","10px")
+                                perfume_brand.append("text").text(": "+p.data["Designer"]).style("font-weight","normal");
+
+                                var perfume_gender = subview.select("#perfume-gender").data(["Gender"]);
+                                perfume_gender.exit().remove();
+                                perfume_gender.enter().append("p");
+                                perfume_gender.text("Gender").style("font-weight","bold").style("margin-left","10px")
+                                perfume_gender.append("text").text(": "+p.data["Gender"]).style("font-weight","normal");
+
+
+                                var data =[{"name": "love","value": p.data["love"]}, {"name": "like","value": p.data["like"]},{"name": "dislike","value": p.data["dislike"]}];
+
+                                //sort bars based on value
+                                data = data.sort(function (a, b) {
+                                    return d3.ascending(a.value, b.value);
+                                });
+
+                                d3.select("#barchart").remove();
+
+                                var svg = subview.select("#perfume-vote").append("svg").attr("id","barchart")
+                                    .attr("width", width + margin.left + margin.right)
+                                    .attr("height", height + margin.top + margin.bottom)
+                                    .append("g")
+                                    .attr("transform", "translate(5,15)");
+
+                                subview.select("#barchart").append("text").text("Vote").attr("transform", "translate(10,"+margin.top+")").style("font-weight","bold");
+
+                                var x = d3.scale.linear()
+                                    .range([0, width-120])
+                                    .domain([0, d3.max(data, function (d) {
+                                        return d.value;
+                                    })]);
+
+                                var y = d3.scale.ordinal()
+                                    .rangeRoundBands([height-30, 0], 1)
+                                    .domain(data.map(function (d) {
+                                        return d.name;
+                                    }));
+
+                                //make y axis to show bar names
+                                var yAxis = d3.svg.axis()
+                                    .scale(y)
+                                    //no tick marks
+                                    .tickSize(0)
+                                    .orient("left");
+
+                                var gy = svg.append("g")
+                                    .attr("class", "y axis")
+                                    .attr("transform", "translate(40,0)")
+                                    .call(yAxis);
+
+                                var bars = svg.selectAll(".bar")
+                                    .data(data)
+                                    .enter()
+                                    .append("g");
+
+                                //append rects
+                                bars.append("rect")
+                                    .style("fill","#d3d3d3")
+                                    .attr("class", "bar")
+                                    .attr("y", function (d) {
+                                        return y(d.name)-10;
+                                    })
+                                    .attr("height", 20)
+                                    .attr("x", 50)
+                                    .attr("width", function (d) {
+                                        return x(d.value);
+                                    });
+
+                                //add a value label to the right of each bar
+                                bars.append("text")
+                                    .attr("class", "label")
+                                    //y position of the label is halfway down the bar
+                                    .attr("y", function (d) {
+                                        return y(d.name);
+                                    })
+                                    //x position is 3 pixels to the right of the bar
+                                    .attr("x", function (d) {
+                                        return x(d.value) + 60;
+                                    })
+                                    .text(function (d) {
+                                        return d.value.substring(0,4);
+                                    });
+
+                                var polygon =  d3.select("#radarChart").selectAll(".area").data(data, cfg.axisJoin);
+                                polygon
+                                    .on("click", function () {
+                                        var pname = this.getAttribute('class').substring(24,this.getAttribute('class').length);
+                                        console.log(pname);
+                                        _.forEach(points,function (p) {
+                                            if(p.data["Name"]==pname){
+                                                var perfume_name = subview.select("#perfume-name").data(["Name"]);
+                                                perfume_name.exit().remove();
+                                                perfume_name.enter().append("p");
+                                                perfume_name.text("Name").style("font-weight","bold").style("margin-left","10px").style("margin-top","10px")
+                                                perfume_name.append("text").text(": "+p.data["Name"]).style("font-weight","normal");
+
+                                                var perfume_brand = subview.select("#perfume-brand").data(["Designer"]);
+                                                perfume_brand.exit().remove();
+                                                perfume_brand.enter().append("p");
+                                                perfume_brand.text("Brand").style("font-weight","bold").style("margin-left","10px")
+                                                perfume_brand.append("text").text(": "+p.data["Designer"]).style("font-weight","normal");
+
+                                                var perfume_gender = subview.select("#perfume-gender").data(["Gender"]);
+                                                perfume_gender.exit().remove();
+                                                perfume_gender.enter().append("p");
+                                                perfume_gender.text("Gender").style("font-weight","bold").style("margin-left","10px")
+                                                perfume_gender.append("text").text(": "+p.data["Gender"]).style("font-weight","normal");
+
+
+                                                var data =[{"name": "love","value": p.data["love"]}, {"name": "like","value": p.data["like"]},{"name": "dislike","value": p.data["dislike"]}];
+
+                                                //sort bars based on value
+                                                data = data.sort(function (a, b) {
+                                                    return d3.ascending(a.value, b.value);
+                                                });
+
+                                                d3.select("#barchart").remove();
+
+                                                var svg = subview.select("#perfume-vote").append("svg").attr("id","barchart")
+                                                    .attr("width", width + margin.left + margin.right)
+                                                    .attr("height", height + margin.top + margin.bottom)
+                                                    .append("g")
+                                                    .attr("transform", "translate(5,15)");
+
+                                                subview.select("#barchart").append("text").text("Vote").attr("transform", "translate(10,"+margin.top+")").style("font-weight","bold");
+
+                                                var x = d3.scale.linear()
+                                                    .range([0, width-120])
+                                                    .domain([0, d3.max(data, function (d) {
+                                                        return d.value;
+                                                    })]);
+
+                                                var y = d3.scale.ordinal()
+                                                    .rangeRoundBands([height-30, 0], 1)
+                                                    .domain(data.map(function (d) {
+                                                        return d.name;
+                                                    }));
+
+                                                //make y axis to show bar names
+                                                var yAxis = d3.svg.axis()
+                                                    .scale(y)
+                                                    //no tick marks
+                                                    .tickSize(0)
+                                                    .orient("left");
+
+                                                var gy = svg.append("g")
+                                                    .attr("class", "y axis")
+                                                    .attr("transform", "translate(40,0)")
+                                                    .call(yAxis);
+
+                                                var bars = svg.selectAll(".bar")
+                                                    .data(data)
+                                                    .enter()
+                                                    .append("g");
+
+                                                //append rects
+                                                bars.append("rect")
+                                                    .style("fill","#d3d3d3")
+                                                    .attr("class", "bar")
+                                                    .attr("y", function (d) {
+                                                        return y(d.name)-10;
+                                                    })
+                                                    .attr("height", 20)
+                                                    .attr("x", 50)
+                                                    .attr("width", function (d) {
+                                                        return x(d.value);
+                                                    });
+
+                                                //add a value label to the right of each bar
+                                                bars.append("text")
+                                                    .attr("class", "label")
+                                                    //y position of the label is halfway down the bar
+                                                    .attr("y", function (d) {
+                                                        return y(d.name);
+                                                    })
+                                                    //x position is 3 pixels to the right of the bar
+                                                    .attr("x", function (d) {
+                                                        return x(d.value) + 60;
+                                                    })
+                                                    .text(function (d) {
+                                                        return d.value.substring(0,4);
+                                                    });
+                                            }
+                                        });
+                                    })
+                                    .on('mouseover', function (){
+                                        var pname = this.getAttribute('class').substring(24,this.getAttribute('class').length);
+                                        $(this).css('opacity','0.7');
+
+                                        polygon.append("text").text(pname);
+
+                                    })
+                                    .on('mouseout', function(){
+                                        $(this).css('opacity','1.0');
+                                    });
+
+                            }
+
+                        }
+
                 });
 
-            //add a value label to the right of each bar
-            bars.append("text")
-                .attr("class", "label")
-                //y position of the label is halfway down the bar
-                .attr("y", function (d) {
-                    return y(d.name);
-                })
-                //x position is 3 pixels to the right of the bar
-                .attr("x", function (d) {
-                    return x(d.value) + 60;
-                })
-                .text(function (d) {
-                    return d.value.substring(0,4);
-                });
+            }
         }
 
-        _.forEach(points, function (p) {
-            if(p.data["Name"].replace(/ /gi, "")==name){
-                prepoint =[];
-                console.log(name);
-                prepoint2.push(p.data);
+        else{
+            for(var i=perfume_name_list.length-1;i>perfume_name_list.length-6;i--){
+                _.forEach(points, function (p) {
+                    if (p.data['Name'] == perfume_name_list[i]){
+                        console.log(perfume_name_list[i]);
+                        if(i==perfume_name_list.length-1){
+                            var img = subview.select("#img4").data(["Img_url"]);
+                            img.style("display","block");
+                            img.attr("src",p.data["Img_url"]);
+                        }
+                        else if(i==perfume_name_list.length-2){
+                            var img = subview.select("#img3").data(["Img_url"]);
+                            img.style("display","block");
+                            img.attr("src",p.data["Img_url"]);
+                        }
+                        else if(i==perfume_name_list.length-3){
+                            var img = subview.select("#img2").data(["Img_url"]);
+                            img.style("display","block");
+                            img.attr("src",p.data["Img_url"]);
+                        }
+                        else if(i==perfume_name_list.length-4){
+                            var img = subview.select("#img1").data(["Img_url"]);
+                            img.style("display","block");
+                            img.attr("src",p.data["Img_url"]);
+                        }
+                        else if(i==perfume_name_list.length-5){
+                            var img = subview.select("#img0").data(["Img_url"]);
+                            img.style("display","block");
+                            img.attr("src",p.data["Img_url"]);
+                        }
 
-                if(compare)
-                {
-                    if (compare == "Season") {
-                        data = [
-                            {
-                                className: 'Season', // optional can be used for styling
-                                axes: [
-                                    {axis: season[0], value: p.data["spring"]},
-                                    {axis: season[1], value: p.data["summer"]},
-                                    {axis: season[2], value: p.data["autumn"]},
-                                    {axis: season[3], value: p.data["winter"]}
-                                ]
+                        if(prepoint2.length>=1)
+                        {
+
+                            if (compare == "Season") {
+                                if(i==0){
+                                    Data =[
+                                        {
+                                            className: p.data["Name"], // optional can be used for styling
+                                            axes: [
+                                                {axis: season[0], value: p.data["spring"]},
+                                                {axis: season[1], value: p.data["summer"]},
+                                                {axis: season[2], value: p.data["autumn"]},
+                                                {axis: season[3], value: p.data["winter"]}
+                                            ]
+                                        }
+                                    ];
+                                }
+                                else{
+                                    Data.push({
+                                        className: p.data["Name"], // optional can be used for styling
+                                        axes: [
+                                            {axis: season[0], value: p.data["spring"]},
+                                            {axis: season[1], value: p.data["summer"]},
+                                            {axis: season[2], value: p.data["autumn"]},
+                                            {axis: season[3], value: p.data["winter"]}
+                                        ]
+                                    });
+                                }
+                                console.log(Data)
                             }
-                        ];
-                    }
-                    else if (compare == "Sillage") {
-                        data = [
-                            {
-                                className: 'Sillage', // optional can be used for styling
-                                axes: [
-                                    {axis: sillage[0], value: p.data["sillagesoft"]},
-                                    {axis: sillage[1], value: p.data["sillagemoderate"]},
-                                    {axis: sillage[2], value: p.data["sillageheavy"]},
-                                    {axis: sillage[3], value: p.data["sillageenormous"]}
-                                ]
+                            else if (compare == "Sillage") {
+                                if(i==0){
+                                    Data =[
+                                        {
+                                            className: p.data["Name"], // optional can be used for styling
+                                            axes: [
+                                                {axis: sillage[0], value: p.data["sillagesoft"]},
+                                                {axis: sillage[1], value: p.data["sillagemoderate"]},
+                                                {axis: sillage[2], value: p.data["sillageheavy"]},
+                                                {axis: sillage[3], value: p.data["sillageenormous"]}
+                                            ]
+                                        }
+                                    ];
+                                }
+                                else{
+                                    Data.push({
+                                        className: p.data["Name"], // optional can be used for styling
+                                        axes: [
+                                            {axis: sillage[0], value: p.data["sillagesoft"]},
+                                            {axis: sillage[1], value: p.data["sillagemoderate"]},
+                                            {axis: sillage[2], value: p.data["sillageheavy"]},
+                                            {axis: sillage[3], value: p.data["sillageenormous"]}
+                                        ]
+                                    });
+                                }
+                                console.log(Data)
                             }
-                        ];
-                    }
-                    else if (compare == "Longevity") {
-                        data = [
-                            {
-                                className: 'Longevity', // optional can be used for styling
-                                axes: [
-                                    {axis: longevity[0], value: p.data["longevitypoor"]},
-                                    {axis: longevity[1], value: p.data["longevityweak"]},
-                                    {axis: longevity[2], value: p.data["longevitymoderate"]},
-                                    {axis: longevity[3], value: p.data["longevitylonglasting"]},
-                                    {axis: longevity[4], value: p.data["longevityverylonglasting"]}
-                                ]
+                            else if (compare == "Longevity") {
+                                if(i==0){
+                                    Data =[
+                                        {
+                                            className: p.data["Name"], // optional can be used for styling
+                                            axes: [
+                                                {axis: longevity[0], value: p.data["longevitypoor"]},
+                                                {axis: longevity[1], value: p.data["longevityweak"]},
+                                                {axis: longevity[2], value: p.data["longevitymoderate"]},
+                                                {axis: longevity[3], value: p.data["longevitylonglasting"]},
+                                                {axis: longevity[4], value: p.data["longevityverylonglasting"]}
+                                            ]
+                                        }
+                                    ];
+                                }
+                                else{
+                                    Data.push({
+                                        className: p.data["Name"], // optional can be used for styling
+                                        axes: [
+                                            {axis: longevity[0], value: p.data["longevitypoor"]},
+                                            {axis: longevity[1], value: p.data["longevityweak"]},
+                                            {axis: longevity[2], value: p.data["longevitymoderate"]},
+                                            {axis: longevity[3], value: p.data["longevitylonglasting"]},
+                                            {axis: longevity[4], value: p.data["longevityverylonglasting"]}
+                                        ]
+                                    });
+                                }
+                                console.log(Data)
+
                             }
-                        ];
-                    }
-                    else if (compare == "Notes") {
-                        data = [
-                            {
-                                className: ['Notes'], // optional can be used for styling
-                                axes: [
-                                    {axis: notes[0], value: p.data["MUSK__AMBER__ANIMALIC_SMELLS"]},
-                                    {axis: notes[1], value: p.data["SWEETS_AND_GOURMAND_SMELLS"]},
-                                    {axis: notes[2], value: p.data["RESINS_AND_BALSAMS"]},
-                                    {axis: notes[3], value: p.data["SPICES"]},
-                                    {axis: notes[4], value: p.data["WOODS_AND_MOSSES"]},
-                                    {axis: notes[5], value: p.data["BEVERAGES"]},
-                                    {axis: notes[6], value: p.data["CITRUS_SMELLS"]},
-                                    {axis: notes[7], value: p.data["NATURAL_AND_SYNTHETIC__POPULAR_AND_WEIRD"]},
-                                    {axis: notes[8], value: p.data["GREENS__HERBS_AND_FOUGERES"]},
-                                    {axis: notes[9], value: p.data["FRUITS__VEGETABLES_AND_NUTS"]},
-                                    {axis: notes[10], value: p.data["FLOWERS"]},
-                                    {axis: notes[11], value: p.data["WHITE_FLOWERS"]}
-                                ]
+                            else if (compare == "Notes") {
+                                if(i==0){
+                                    Data =[
+                                        {
+                                            className: p.data["Name"], // optional can be used for styling
+                                            axes: [
+                                                {axis: notes[0], value: p.data["MUSK__AMBER__ANIMALIC_SMELLS"]},
+                                                {axis: notes[1], value: p.data["SWEETS_AND_GOURMAND_SMELLS"]},
+                                                {axis: notes[2], value: p.data["RESINS_AND_BALSAMS"]},
+                                                {axis: notes[3], value: p.data["SPICES"]},
+                                                {axis: notes[4], value: p.data["WOODS_AND_MOSSES"]},
+                                                {axis: notes[5], value: p.data["BEVERAGES"]},
+                                                {axis: notes[6], value: p.data["CITRUS_SMELLS"]},
+                                                {axis: notes[7], value: p.data["NATURAL_AND_SYNTHETIC__POPULAR_AND_WEIRD"]},
+                                                {axis: notes[8], value: p.data["GREENS__HERBS_AND_FOUGERES"]},
+                                                {axis: notes[9], value: p.data["FRUITS__VEGETABLES_AND_NUTS"]},
+                                                {axis: notes[10], value: p.data["FLOWERS"]},
+                                                {axis: notes[11], value: p.data["WHITE_FLOWERS"]}
+                                            ]
+                                        }
+                                    ];
+                                }
+                                else{
+                                    Data.push({
+                                        className: p.data["Name"], // optional can be used for styling
+                                        axes: [
+                                            {axis: notes[0], value: p.data["MUSK__AMBER__ANIMALIC_SMELLS"]},
+                                            {axis: notes[1], value: p.data["SWEETS_AND_GOURMAND_SMELLS"]},
+                                            {axis: notes[2], value: p.data["RESINS_AND_BALSAMS"]},
+                                            {axis: notes[3], value: p.data["SPICES"]},
+                                            {axis: notes[4], value: p.data["WOODS_AND_MOSSES"]},
+                                            {axis: notes[5], value: p.data["BEVERAGES"]},
+                                            {axis: notes[6], value: p.data["CITRUS_SMELLS"]},
+                                            {axis: notes[7], value: p.data["NATURAL_AND_SYNTHETIC__POPULAR_AND_WEIRD"]},
+                                            {axis: notes[8], value: p.data["GREENS__HERBS_AND_FOUGERES"]},
+                                            {axis: notes[9], value: p.data["FRUITS__VEGETABLES_AND_NUTS"]},
+                                            {axis: notes[10], value: p.data["FLOWERS"]},
+                                            {axis: notes[11], value: p.data["WHITE_FLOWERS"]}
+                                        ]
+                                    });
+                                }
+                                console.log(Data)
                             }
-                        ];
+
+                            d3.select("#radarChart").remove();
+
+                            var chart = RadarChart.chart();
+                            var cfg = chart.config({
+                                containerClass: 'radar-chart', // target with css, the default stylesheet targets .radar-chart
+                                w: 200,
+                                h: 200,
+                                factor: 0.8,
+                                factorLegend: 0.95,
+                                levels: 3,
+                                maxValue: 0,
+                                minValue: 0,
+                                radians: 2 * Math.PI,
+                                /*color: function(i) {
+                                    c = ["#E10B7B", "#CA1C82", "#9A1931", "#B85B27", "#BF8837",
+                                        "#8C844F", "#EEB23C", "#2B9555", "#7DBA55", "#EB7823", "#E6362C", "#E86EA3"];
+                                    return c[i]},*/
+                                color: d3.scale.category10(), // pass a noop (function() {}) to decide color via css
+                                axisLine: true,
+                                axisText: true,
+                                circles: true,
+                                radius: 0,
+                                open: false,  // whether or not the last axis value should connect back to the first axis value
+                                              // if true, consider modifying the chart opacity (see "Style with CSS" section above)
+                                axisJoin: function (d, i) {
+                                    return d.className || i;
+                                },
+                                tooltipFormatValue: function (d) {
+                                    return d;
+                                },
+                                tooltipFormatClass: function (d) {
+                                    return d;
+                                },
+                                transitionDuration: 300,
+                                facet: false,
+                                levelScale: 0.85,
+                                labelScale: 5.0,
+                                facetPaddingScale: 2.1,
+                                showLevels: true,
+                                showLevelsLabels: true,
+                                showAxesLabels: true,
+                                showAxes: true,
+                                showLegend: true,
+                                showVertices: true,
+                                showPolygons: true,
+                                polygonAreaOpacity: 0.3,
+                                polygonStrokeOpacity: 1,
+                                polygonPointSize: 4,
+                                legendBoxSize: 50,
+                                legendPosition: {x: 20, y: 20},
+                                paddingX: 10,
+                                paddingY: 30
+                            });
+
+                            var svg = d3.select('.radar-chart').append('svg').attr("id","radarChart");
+                            svg.attr('width', 200).attr('height', 200);
+                            svg.append('g').classed('single', 1).datum(Data).call(chart);
+
+                            var data =[{"name": "love","value": prepoint2[prepoint2.length-1]["love"]}, {"name": "like","value": prepoint2[prepoint2.length-1]["like"]},{"name": "dislike","value": prepoint2[prepoint2.length-1]["dislike"]}];
+
+                            //sort bars based on value
+                            data = data.sort(function (a, b) {
+                                return d3.ascending(a.value, b.value);
+                            });
+
+                            d3.select("#barchart").remove();
+
+                            var svg = subview.select("#perfume-vote").append("svg").attr("id","barchart")
+                                .attr("width", width + margin.left + margin.right)
+                                .attr("height", height + margin.top + margin.bottom)
+                                .append("g")
+                                .attr("transform", "translate(5,15)");
+
+                            subview.select("#barchart").append("text").text("Vote").attr("transform", "translate(10,"+margin.top+")").style("font-weight","bold");
+
+                            var x = d3.scale.linear()
+                                .range([0, width-120])
+                                .domain([0, d3.max(data, function (d) {
+                                    return d.value;
+                                })]);
+
+                            var y = d3.scale.ordinal()
+                                .rangeRoundBands([height-30, 0], 1)
+                                .domain(data.map(function (d) {
+                                    return d.name;
+                                }));
+
+                            //make y axis to show bar names
+                            var yAxis = d3.svg.axis()
+                                .scale(y)
+                                //no tick marks
+                                .tickSize(0)
+                                .orient("left");
+
+                            var gy = svg.append("g")
+                                .attr("class", "y axis")
+                                .attr("transform", "translate(40,0)")
+                                .call(yAxis);
+
+                            var bars = svg.selectAll(".bar")
+                                .data(data)
+                                .enter()
+                                .append("g");
+
+                            //append rects
+                            bars.append("rect")
+                                .style("fill","#d3d3d3")
+                                .attr("class", "bar")
+                                .attr("y", function (d) {
+                                    return y(d.name)-10;
+                                })
+                                .attr("height", 20)
+                                .attr("x", 50)
+                                .attr("width", function (d) {
+                                    return x(d.value);
+                                });
+
+                            //add a value label to the right of each bar
+                            bars.append("text")
+                                .attr("class", "label")
+                                //y position of the label is halfway down the bar
+                                .attr("y", function (d) {
+                                    return y(d.name);
+                                })
+                                //x position is 3 pixels to the right of the bar
+                                .attr("x", function (d) {
+                                    return x(d.value) + 60;
+                                })
+                                .text(function (d) {
+                                    return d.value.substring(0,4);
+                                });
+
+                            var polygon =  d3.select("#radarChart").selectAll(".area").data(data, cfg.axisJoin);
+                            polygon
+                                .on("click", function () {
+                                    var pname = this.getAttribute('class').substring(24,this.getAttribute('class').length);
+                                    console.log(pname);
+                                    _.forEach(points,function (p) {
+                                        if(p.data["Name"]==pname){
+                                            var perfume_name = subview.select("#perfume-name").data(["Name"]);
+                                            perfume_name.exit().remove();
+                                            perfume_name.enter().append("p");
+                                            perfume_name.text("Name").style("font-weight","bold").style("margin-left","10px").style("margin-top","10px")
+                                            perfume_name.append("text").text(": "+p.data["Name"]).style("font-weight","normal");
+
+                                            var perfume_brand = subview.select("#perfume-brand").data(["Designer"]);
+                                            perfume_brand.exit().remove();
+                                            perfume_brand.enter().append("p");
+                                            perfume_brand.text("Brand").style("font-weight","bold").style("margin-left","10px")
+                                            perfume_brand.append("text").text(": "+p.data["Designer"]).style("font-weight","normal");
+
+                                            var perfume_gender = subview.select("#perfume-gender").data(["Gender"]);
+                                            perfume_gender.exit().remove();
+                                            perfume_gender.enter().append("p");
+                                            perfume_gender.text("Gender").style("font-weight","bold").style("margin-left","10px")
+                                            perfume_gender.append("text").text(": "+p.data["Gender"]).style("font-weight","normal");
+
+
+                                            var data =[{"name": "love","value": p.data["love"]}, {"name": "like","value": p.data["like"]},{"name": "dislike","value": p.data["dislike"]}];
+
+                                            //sort bars based on value
+                                            data = data.sort(function (a, b) {
+                                                return d3.ascending(a.value, b.value);
+                                            });
+
+                                            d3.select("#barchart").remove();
+
+                                            var svg = subview.select("#perfume-vote").append("svg").attr("id","barchart")
+                                                .attr("width", width + margin.left + margin.right)
+                                                .attr("height", height + margin.top + margin.bottom)
+                                                .append("g")
+                                                .attr("transform", "translate(5,15)");
+
+                                            subview.select("#barchart").append("text").text("Vote").attr("transform", "translate(10,"+margin.top+")").style("font-weight","bold");
+
+                                            var x = d3.scale.linear()
+                                                .range([0, width-120])
+                                                .domain([0, d3.max(data, function (d) {
+                                                    return d.value;
+                                                })]);
+
+                                            var y = d3.scale.ordinal()
+                                                .rangeRoundBands([height-30, 0], 1)
+                                                .domain(data.map(function (d) {
+                                                    return d.name;
+                                                }));
+
+                                            //make y axis to show bar names
+                                            var yAxis = d3.svg.axis()
+                                                .scale(y)
+                                                //no tick marks
+                                                .tickSize(0)
+                                                .orient("left");
+
+                                            var gy = svg.append("g")
+                                                .attr("class", "y axis")
+                                                .attr("transform", "translate(40,0)")
+                                                .call(yAxis);
+
+                                            var bars = svg.selectAll(".bar")
+                                                .data(data)
+                                                .enter()
+                                                .append("g");
+
+                                            //append rects
+                                            bars.append("rect")
+                                                .style("fill","#d3d3d3")
+                                                .attr("class", "bar")
+                                                .attr("y", function (d) {
+                                                    return y(d.name)-10;
+                                                })
+                                                .attr("height", 20)
+                                                .attr("x", 50)
+                                                .attr("width", function (d) {
+                                                    return x(d.value);
+                                                });
+
+                                            //add a value label to the right of each bar
+                                            bars.append("text")
+                                                .attr("class", "label")
+                                                //y position of the label is halfway down the bar
+                                                .attr("y", function (d) {
+                                                    return y(d.name);
+                                                })
+                                                //x position is 3 pixels to the right of the bar
+                                                .attr("x", function (d) {
+                                                    return x(d.value) + 60;
+                                                })
+                                                .text(function (d) {
+                                                    return d.value.substring(0,4);
+                                                });
+                                        }
+                                    });
+                                })
+                                .on('mouseover', function (){
+                                    $(this).css('opacity','0.7')
+                                })
+                                .on('mouseout', function(){
+                                    $(this).css('opacity','1.0')
+                                });
+
+                        }
+
+                        if(compare)
+                        {
+                            if (compare == "Season") {
+                                if(i==0){
+                                    Data =[
+                                        {
+                                            className: p.data["Name"], // optional can be used for styling
+                                            axes: [
+                                                {axis: season[0], value: p.data["spring"]},
+                                                {axis: season[1], value: p.data["summer"]},
+                                                {axis: season[2], value: p.data["autumn"]},
+                                                {axis: season[3], value: p.data["winter"]}
+                                            ]
+                                        }
+                                    ];
+                                }
+                                else{
+                                    Data.push({
+                                        className: p.data["Name"], // optional can be used for styling
+                                        axes: [
+                                            {axis: season[0], value: p.data["spring"]},
+                                            {axis: season[1], value: p.data["summer"]},
+                                            {axis: season[2], value: p.data["autumn"]},
+                                            {axis: season[3], value: p.data["winter"]}
+                                        ]
+                                    });
+                                }
+                                console.log(Data)
+                            }
+                            else if (compare == "Sillage") {
+                                if(i==0){
+                                    Data =[
+                                        {
+                                            className: p.data["Name"], // optional can be used for styling
+                                            axes: [
+                                                {axis: sillage[0], value: p.data["sillagesoft"]},
+                                                {axis: sillage[1], value: p.data["sillagemoderate"]},
+                                                {axis: sillage[2], value: p.data["sillageheavy"]},
+                                                {axis: sillage[3], value: p.data["sillageenormous"]}
+                                            ]
+                                        }
+                                    ];
+                                }
+                                else{
+                                    Data.push({
+                                        className: p.data["Name"], // optional can be used for styling
+                                        axes: [
+                                            {axis: sillage[0], value: p.data["sillagesoft"]},
+                                            {axis: sillage[1], value: p.data["sillagemoderate"]},
+                                            {axis: sillage[2], value: p.data["sillageheavy"]},
+                                            {axis: sillage[3], value: p.data["sillageenormous"]}
+                                        ]
+                                    });
+                                }
+                                console.log(Data)
+                            }
+                            else if (compare == "Longevity") {
+                                if(i==0){
+                                    Data =[
+                                        {
+                                            className: p.data["Name"], // optional can be used for styling
+                                            axes: [
+                                                {axis: longevity[0], value: p.data["longevitypoor"]},
+                                                {axis: longevity[1], value: p.data["longevityweak"]},
+                                                {axis: longevity[2], value: p.data["longevitymoderate"]},
+                                                {axis: longevity[3], value: p.data["longevitylonglasting"]},
+                                                {axis: longevity[4], value: p.data["longevityverylonglasting"]}
+                                            ]
+                                        }
+                                    ];
+                                }
+                                else{
+                                    Data.push({
+                                        className: p.data["Name"], // optional can be used for styling
+                                        axes: [
+                                            {axis: longevity[0], value: p.data["longevitypoor"]},
+                                            {axis: longevity[1], value: p.data["longevityweak"]},
+                                            {axis: longevity[2], value: p.data["longevitymoderate"]},
+                                            {axis: longevity[3], value: p.data["longevitylonglasting"]},
+                                            {axis: longevity[4], value: p.data["longevityverylonglasting"]}
+                                        ]
+                                    });
+                                }
+                                console.log(Data)
+
+                            }
+                            else if (compare == "Notes") {
+                                if(i==0){
+                                    Data =[
+                                        {
+                                            className: p.data["Name"], // optional can be used for styling
+                                            axes: [
+                                                {axis: notes[0], value: p.data["MUSK__AMBER__ANIMALIC_SMELLS"]},
+                                                {axis: notes[1], value: p.data["SWEETS_AND_GOURMAND_SMELLS"]},
+                                                {axis: notes[2], value: p.data["RESINS_AND_BALSAMS"]},
+                                                {axis: notes[3], value: p.data["SPICES"]},
+                                                {axis: notes[4], value: p.data["WOODS_AND_MOSSES"]},
+                                                {axis: notes[5], value: p.data["BEVERAGES"]},
+                                                {axis: notes[6], value: p.data["CITRUS_SMELLS"]},
+                                                {axis: notes[7], value: p.data["NATURAL_AND_SYNTHETIC__POPULAR_AND_WEIRD"]},
+                                                {axis: notes[8], value: p.data["GREENS__HERBS_AND_FOUGERES"]},
+                                                {axis: notes[9], value: p.data["FRUITS__VEGETABLES_AND_NUTS"]},
+                                                {axis: notes[10], value: p.data["FLOWERS"]},
+                                                {axis: notes[11], value: p.data["WHITE_FLOWERS"]}
+                                            ]
+                                        }
+                                    ];
+                                }
+                                else{
+                                    Data.push({
+                                        className: p.data["Name"], // optional can be used for styling
+                                        axes: [
+                                            {axis: notes[0], value: p.data["MUSK__AMBER__ANIMALIC_SMELLS"]},
+                                            {axis: notes[1], value: p.data["SWEETS_AND_GOURMAND_SMELLS"]},
+                                            {axis: notes[2], value: p.data["RESINS_AND_BALSAMS"]},
+                                            {axis: notes[3], value: p.data["SPICES"]},
+                                            {axis: notes[4], value: p.data["WOODS_AND_MOSSES"]},
+                                            {axis: notes[5], value: p.data["BEVERAGES"]},
+                                            {axis: notes[6], value: p.data["CITRUS_SMELLS"]},
+                                            {axis: notes[7], value: p.data["NATURAL_AND_SYNTHETIC__POPULAR_AND_WEIRD"]},
+                                            {axis: notes[8], value: p.data["GREENS__HERBS_AND_FOUGERES"]},
+                                            {axis: notes[9], value: p.data["FRUITS__VEGETABLES_AND_NUTS"]},
+                                            {axis: notes[10], value: p.data["FLOWERS"]},
+                                            {axis: notes[11], value: p.data["WHITE_FLOWERS"]}
+                                        ]
+                                    });
+                                }
+                                console.log(Data)
+                            }
+                            d3.select("#radarChart").remove();
+
+                            var chart = RadarChart.chart();
+                            var cfg = chart.config({
+                                containerClass: 'radar-chart', // target with css, the default stylesheet targets .radar-chart
+                                w: 200,
+                                h: 200,
+                                factor: 0.8,
+                                factorLegend: 0.95,
+                                levels: 3,
+                                maxValue: 0,
+                                minValue: 0,
+                                radians: 2 * Math.PI,
+                                /*color: function(i) {
+                                    c = ["#dd2e36"];
+                                    return c[i]},*/
+                                color: d3.scale.category10(), // pass a noop (function() {}) to decide color via css
+                                axisLine: true,
+                                axisText: true,
+                                circles: true,
+                                radius: 0,
+                                open: false,  // whether or not the last axis value should connect back to the first axis value
+                                              // if true, consider modifying the chart opacity (see "Style with CSS" section above)
+                                axisJoin: function (d, i) {
+                                    return d.className || i;
+                                },
+                                tooltipFormatValue: function (d) {
+                                    return d;
+                                },
+                                tooltipFormatClass: function (d) {
+                                    return d;
+                                },
+                                transitionDuration: 300,
+                                facet: false,
+                                levelScale: 0.85,
+                                labelScale: 5.0,
+                                facetPaddingScale: 2.1,
+                                showLevels: true,
+                                showLevelsLabels: true,
+                                showAxesLabels: true,
+                                showAxes: true,
+                                showLegend: true,
+                                showVertices: true,
+                                showPolygons: true,
+                                polygonAreaOpacity: 0.3,
+                                polygonStrokeOpacity: 1,
+                                polygonPointSize: 4,
+                                legendBoxSize: 50,
+                                legendPosition: {x: 20, y: 20},
+                                paddingX: 10,
+                                paddingY: 30
+                            });
+
+                            var svg = d3.select('.radar-chart').append('svg').attr("id","radarChart");
+                            svg.attr('width', 200).attr('height', 200);
+                            svg.append('g').classed('single', 1).datum(data).call(chart);
+
+                            var polygon =  d3.select("#radarChart").selectAll(".area").data(data, cfg.axisJoin);
+                            polygon
+                                .on("click", function () {
+                                    var pname = this.getAttribute('class').substring(24,this.getAttribute('class').length);
+                                    console.log(pname);
+                                    _.forEach(points,function (p) {
+                                        if(p.data["Name"]==pname){
+                                            var perfume_name = subview.select("#perfume-name").data(["Name"]);
+                                            perfume_name.exit().remove();
+                                            perfume_name.enter().append("p");
+                                            perfume_name.text("Name").style("font-weight","bold").style("margin-left","10px").style("margin-top","10px")
+                                            perfume_name.append("text").text(": "+p.data["Name"]).style("font-weight","normal");
+
+                                            var perfume_brand = subview.select("#perfume-brand").data(["Designer"]);
+                                            perfume_brand.exit().remove();
+                                            perfume_brand.enter().append("p");
+                                            perfume_brand.text("Brand").style("font-weight","bold").style("margin-left","10px")
+                                            perfume_brand.append("text").text(": "+p.data["Designer"]).style("font-weight","normal");
+
+                                            var perfume_gender = subview.select("#perfume-gender").data(["Gender"]);
+                                            perfume_gender.exit().remove();
+                                            perfume_gender.enter().append("p");
+                                            perfume_gender.text("Gender").style("font-weight","bold").style("margin-left","10px")
+                                            perfume_gender.append("text").text(": "+p.data["Gender"]).style("font-weight","normal");
+
+
+                                            var data =[{"name": "love","value": p.data["love"]}, {"name": "like","value": p.data["like"]},{"name": "dislike","value": p.data["dislike"]}];
+
+                                            //sort bars based on value
+                                            data = data.sort(function (a, b) {
+                                                return d3.ascending(a.value, b.value);
+                                            });
+
+                                            d3.select("#barchart").remove();
+
+                                            var svg = subview.select("#perfume-vote").append("svg").attr("id","barchart")
+                                                .attr("width", width + margin.left + margin.right)
+                                                .attr("height", height + margin.top + margin.bottom)
+                                                .append("g")
+                                                .attr("transform", "translate(5,15)");
+
+                                            subview.select("#barchart").append("text").text("Vote").attr("transform", "translate(10,"+margin.top+")").style("font-weight","bold");
+
+                                            var x = d3.scale.linear()
+                                                .range([0, width-120])
+                                                .domain([0, d3.max(data, function (d) {
+                                                    return d.value;
+                                                })]);
+
+                                            var y = d3.scale.ordinal()
+                                                .rangeRoundBands([height-30, 0], 1)
+                                                .domain(data.map(function (d) {
+                                                    return d.name;
+                                                }));
+
+                                            //make y axis to show bar names
+                                            var yAxis = d3.svg.axis()
+                                                .scale(y)
+                                                //no tick marks
+                                                .tickSize(0)
+                                                .orient("left");
+
+                                            var gy = svg.append("g")
+                                                .attr("class", "y axis")
+                                                .attr("transform", "translate(40,0)")
+                                                .call(yAxis);
+
+                                            var bars = svg.selectAll(".bar")
+                                                .data(data)
+                                                .enter()
+                                                .append("g");
+
+                                            //append rects
+                                            bars.append("rect")
+                                                .style("fill","#d3d3d3")
+                                                .attr("class", "bar")
+                                                .attr("y", function (d) {
+                                                    return y(d.name)-10;
+                                                })
+                                                .attr("height", 20)
+                                                .attr("x", 50)
+                                                .attr("width", function (d) {
+                                                    return x(d.value);
+                                                });
+
+                                            //add a value label to the right of each bar
+                                            bars.append("text")
+                                                .attr("class", "label")
+                                                //y position of the label is halfway down the bar
+                                                .attr("y", function (d) {
+                                                    return y(d.name);
+                                                })
+                                                //x position is 3 pixels to the right of the bar
+                                                .attr("x", function (d) {
+                                                    return x(d.value) + 60;
+                                                })
+                                                .text(function (d) {
+                                                    return d.value.substring(0,4);
+                                                });
+                                        }
+                                    });
+                                })
+                                .on('mouseover', function (){
+                                    $(this).css('opacity','0.7')
+                                })
+                                .on('mouseout', function(){
+                                    $(this).css('opacity','1.0')
+                                });
+
+                        }
+
+                        var selectbox = subview.select(".comparison-select-box");
+                        selectbox.style("display","block");
+
+                        var perfume_name = subview.select("#perfume-name").data(["Name"]);
+                        perfume_name.exit().remove();
+                        perfume_name.enter().append("p");
+                        perfume_name.text("Name").style("font-weight","bold").style("margin-left","10px").style("margin-top","10px")
+                        perfume_name.append("text").text(": "+p.data["Name"]).style("font-weight","normal");
+
+                        var perfume_brand = subview.select("#perfume-brand").data(["Designer"]);
+                        perfume_brand.exit().remove();
+                        perfume_brand.enter().append("p");
+                        perfume_brand.text("Brand").style("font-weight","bold").style("margin-left","10px")
+                        perfume_brand.append("text").text(": "+p.data["Designer"]).style("font-weight","normal");
+
+                        var perfume_gender = subview.select("#perfume-gender").data(["Gender"]);
+                        perfume_gender.exit().remove();
+                        perfume_gender.enter().append("p");
+                        perfume_gender.text("Gender").style("font-weight","bold").style("margin-left","10px")
+                        perfume_gender.append("text").text(": "+p.data["Gender"]).style("font-weight","normal");
+
+
+                        var data =[{"name": "love","value": p.data["love"]}, {"name": "like","value": p.data["like"]},{"name": "dislike","value": p.data["dislike"]}];
+
+                        //sort bars based on value
+                        data = data.sort(function (a, b) {
+                            return d3.ascending(a.value, b.value);
+                        });
+
+                        d3.select("#barchart").remove();
+
+                        var svg = subview.select("#perfume-vote").append("svg").attr("id","barchart")
+                            .attr("width", width + margin.left + margin.right)
+                            .attr("height", height + margin.top + margin.bottom)
+                            .append("g")
+                            .attr("transform", "translate(5,15)");
+
+                        subview.select("#barchart").append("text").text("Vote").attr("transform", "translate(10,"+margin.top+")").style("font-weight","bold");
+
+                        var x = d3.scale.linear()
+                            .range([0, width-120])
+                            .domain([0, d3.max(data, function (d) {
+                                return d.value;
+                            })]);
+
+                        var y = d3.scale.ordinal()
+                            .rangeRoundBands([height-30, 0], 1)
+                            .domain(data.map(function (d) {
+                                return d.name;
+                            }));
+
+                        //make y axis to show bar names
+                        var yAxis = d3.svg.axis()
+                            .scale(y)
+                            //no tick marks
+                            .tickSize(0)
+                            .orient("left");
+
+                        var gy = svg.append("g")
+                            .attr("class", "y axis")
+                            .attr("transform", "translate(40,0)")
+                            .call(yAxis);
+
+                        var bars = svg.selectAll(".bar")
+                            .data(data)
+                            .enter()
+                            .append("g");
+
+                        //append rects
+                        bars.append("rect")
+                            .style("fill","#d3d3d3")
+                            .attr("class", "bar")
+                            .attr("y", function (d) {
+                                return y(d.name)-10;
+                            })
+                            .attr("height", 20)
+                            .attr("x", 50)
+                            .attr("width", function (d) {
+                                return x(d.value);
+                            });
+
+                        //add a value label to the right of each bar
+                        bars.append("text")
+                            .attr("class", "label")
+                            //y position of the label is halfway down the bar
+                            .attr("y", function (d) {
+                                return y(d.name);
+                            })
+                            //x position is 3 pixels to the right of the bar
+                            .attr("x", function (d) {
+                                return x(d.value) + 60;
+                            })
+                            .text(function (d) {
+                                return d.value.substring(0,4);
+                            });
                     }
-
-                    d3.select("#radarChart").remove();
-
-                    var chart = RadarChart.chart();
-                    var cfg = chart.config({
-                        containerClass: 'radar-chart', // target with css, the default stylesheet targets .radar-chart
-                        w: 200,
-                        h: 200,
-                        factor: 0.8,
-                        factorLegend: 0.95,
-                        levels: 3,
-                        maxValue: 0,
-                        minValue: 0,
-                        radians: 2 * Math.PI,
-                        color: function(i) {
-                            c = ["#dd2e36"];
-                            return c[i]},//color: d3.scale.category10(), // pass a noop (function() {}) to decide color via css
-                        axisLine: true,
-                        axisText: true,
-                        circles: true,
-                        radius: 0,
-                        open: false,  // whether or not the last axis value should connect back to the first axis value
-                                      // if true, consider modifying the chart opacity (see "Style with CSS" section above)
-                        axisJoin: function (d, i) {
-                            return d.className || i;
-                        },
-                        tooltipFormatValue: function (d) {
-                            return d;
-                        },
-                        tooltipFormatClass: function (d) {
-                            return d;
-                        },
-                        transitionDuration: 300,
-                        facet: false,
-                        levelScale: 0.85,
-                        labelScale: 5.0,
-                        facetPaddingScale: 2.1,
-                        showLevels: true,
-                        showLevelsLabels: true,
-                        showAxesLabels: true,
-                        showAxes: true,
-                        showLegend: true,
-                        showVertices: true,
-                        showPolygons: true,
-                        polygonAreaOpacity: 0.3,
-                        polygonStrokeOpacity: 1,
-                        polygonPointSize: 4,
-                        legendBoxSize: 50,
-                        legendPosition: {x: 20, y: 20},
-                        paddingX: 10,
-                        paddingY: 30
-                    });
-
-                    var svg = d3.select('.radar-chart').append('svg').attr("id","radarChart");
-                    svg.attr('width', 200).attr('height', 200);
-                    svg.append('g').classed('single', 1).datum(data).call(chart);
-                }
-
-                var img = subview.select("#img").data(["Img_url"]);
-                img.style("display","block");
-                img.attr("src",p.data["Img_url"]);
-
-                var selectbox = subview.select(".comparison-select-box");
-                selectbox.style("display","block");
-
-                var perfume_name = subview.select("#perfume-name").data(["Name"]);
-                perfume_name.exit().remove();
-                perfume_name.enter().append("p");
-                perfume_name.text("Name").style("font-weight","bold").style("margin-left","10px").style("margin-top","10px")
-                perfume_name.append("text").text(": "+p.data["Name"]).style("font-weight","normal");
-
-                var perfume_brand = subview.select("#perfume-brand").data(["Designer"]);
-                perfume_brand.exit().remove();
-                perfume_brand.enter().append("p");
-                perfume_brand.text("Brand").style("font-weight","bold").style("margin-left","10px")
-                perfume_brand.append("text").text(": "+p.data["Designer"]).style("font-weight","normal");
-
-                var perfume_gender = subview.select("#perfume-gender").data(["Gender"]);
-                perfume_gender.exit().remove();
-                perfume_gender.enter().append("p");
-                perfume_gender.text("Gender").style("font-weight","bold").style("margin-left","10px")
-                perfume_gender.append("text").text(": "+p.data["Gender"]).style("font-weight","normal");
-
-
-                var data =[{"name": "love","value": p.data["love"]}, {"name": "like","value": p.data["like"]},{"name": "dislike","value": p.data["dislike"]}];
-
-                //sort bars based on value
-                data = data.sort(function (a, b) {
-                    return d3.ascending(a.value, b.value);
                 });
-
-                d3.select("#barchart").remove();
-
-                var svg = subview.select("#perfume-vote").append("svg").attr("id","barchart")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
-                    .append("g")
-                    .attr("transform", "translate(5,15)");
-
-                subview.select("#barchart").append("text").text("Vote").attr("transform", "translate(10,"+margin.top+")").style("font-weight","bold");
-
-                var x = d3.scale.linear()
-                    .range([0, width-120])
-                    .domain([0, d3.max(data, function (d) {
-                        return d.value;
-                    })]);
-
-                var y = d3.scale.ordinal()
-                    .rangeRoundBands([height-30, 0], 1)
-                    .domain(data.map(function (d) {
-                        return d.name;
-                    }));
-
-                //make y axis to show bar names
-                var yAxis = d3.svg.axis()
-                    .scale(y)
-                    //no tick marks
-                    .tickSize(0)
-                    .orient("left");
-
-                var gy = svg.append("g")
-                    .attr("class", "y axis")
-                    .attr("transform", "translate(40,0)")
-                    .call(yAxis);
-
-                var bars = svg.selectAll(".bar")
-                    .data(data)
-                    .enter()
-                    .append("g");
-
-                //append rects
-                bars.append("rect")
-                    .style("fill","#d3d3d3")
-                    .attr("class", "bar")
-                    .attr("y", function (d) {
-                        return y(d.name)-10;
-                    })
-                    .attr("height", 20)
-                    .attr("x", 50)
-                    .attr("width", function (d) {
-                        return x(d.value);
-                    });
-
-                //add a value label to the right of each bar
-                bars.append("text")
-                    .attr("class", "label")
-                    //y position of the label is halfway down the bar
-                    .attr("y", function (d) {
-                        return y(d.name);
-                    })
-                    //x position is 3 pixels to the right of the bar
-                    .attr("x", function (d) {
-                        return x(d.value) + 60;
-                    })
-                    .text(function (d) {
-                        return d.value.substring(0,4);
-                    });
-
             }
+        }
 
-        });
     }
 
     this.dragRect = function () {
@@ -1880,8 +3135,9 @@ var Vis = new function () {
             },
             focus: function() {
                 this.element
-                    .style("stroke", "#DE695B")
-                    .style("stroke-width", "2.5");
+                    .style("stroke", "#888888")
+                    .style("stroke-dasharray","5")
+                    .style("stroke-width", "2");
             },
             remove: function() {
                 this.element.remove();
@@ -1950,11 +3206,12 @@ var Vis = new function () {
             span3.style.marginLeft="35px";
 
             input.id = "checkbox"+count;
-            //input.className ="mdl-checkbox__input";
             input.type ="checkbox";
+            input.setAttribute('onclick','selectPerfume(this)');
+            input.setAttribute('class','not-checked');
+            input.setAttribute('perfumeName',p.data['Name']);
 
             div2.className ="md-checkbox";
-            //label.className ="mdl-checkbox mdl-js-checkbox";
             label.htmlFor = "checkbox"+count;
 
             div2.style.marginTop="-5px";
@@ -1967,14 +3224,9 @@ var Vis = new function () {
             span3.appendChild(span4);
 
             li.appendChild(span1);
-            //li.appendChild(div2);
+            li.appendChild(div2);
             ul.appendChild(li);
             div.appendChild(ul);
-
-            componentHandler.upgradeDom('MaterialCheckbox');
-            componentHandler.upgradeElement(div2);
-            componentHandler.upgradeElement(label);
-            componentHandler.upgradeElement(input);
 
             document.getElementById('selectList').appendChild(div);
 
@@ -1990,7 +3242,20 @@ var Vis = new function () {
             console.log("dragStart");
             document.getElementById('count').textContent = 0;
             count=0;
+            pre_seleted_perfume_id=[];
+            perfume_name_list=[];
+            select_perfume_count=0;
+            d3.selectAll("#img").style("display","none");
+            d3.selectAll("#img0").style("display","none");
+            d3.selectAll("#img1").style("display","none");
+            d3.selectAll("#img2").style("display","none");
+            d3.selectAll("#img3").style("display","none");
+            d3.selectAll("#img4").style("display","none");
             d3.selectAll('#selectList #perfume-list').remove();
+            d3.select("#barchart").remove();
+            d3.select("#radarChart").remove();
+            d3.select("#perfume-content").style("display","none");
+            d3.select(".comparison-select-box").style("display","none");
             var p = d3.mouse(this);
             if(p[0]>-200&&p[1]<200
                 &&p[0]<200&&p[1]>-200)
@@ -2030,7 +3295,7 @@ var Vis = new function () {
                 // range selected
                 d3.event.sourceEvent.preventDefault();
                 selectionRect.focus();
-                $('ul').click(function() {
+                /*$('ul').click(function() {
                     if($(this).hasClass('clicked')){
                         $(this).removeClass('clicked');
                         $(this).css("box-shadow","0 1px 5px 0 rgba(0,0,0,.12)");
@@ -2045,12 +3310,11 @@ var Vis = new function () {
                         $(this).css("box-shadow","2px 4px 8px rgba(0, 0, 0, 0.4)");
 
                         that.appendselectedPerfumeChart($(this).attr('data'));
-                        ulcount = 1;
                     }
                 }).hover(
                     function () { $(this).css("opacity","0.4"); },
                     function () { $(this).css("opacity","1"); }
-                );
+                );*/
 
             }
             else {
@@ -2058,6 +3322,7 @@ var Vis = new function () {
                 // single point selected
                 selectionRect.remove();
                 d3.selectAll('#selectList #perfume-list').remove();
+                d3.select("#perfume-content").style("display","none");
                 document.getElementById('count').textContent = 0;
                 count=0;
                 if($('ul').hasClass('clicked')){
@@ -2312,8 +3577,6 @@ var Vis = new function () {
                     .attr('font-weight','bold')
                     .attr('transform', 'translate(0,24)')
                     .call(xAxis);
-
-
 
 
             }
@@ -2587,7 +3850,6 @@ $('input:checkbox').click(function () {
             });
         }
     }
-
     else{
         if(this.id=="switch5"||this.id=="switch6"||this.id=="switch7"||this.id=="switch8"){
             Vis.updateNodeColor();
@@ -2634,4 +3896,3 @@ $('input:checkbox').click(function () {
     }
 
 });
-
