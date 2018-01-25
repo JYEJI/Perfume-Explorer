@@ -3402,11 +3402,12 @@ var Vis = new function () {
             span3.style.marginLeft="35px";
 
             input.id = "checkbox"+count;
-            //input.className ="mdl-checkbox__input";
             input.type ="checkbox";
+            input.setAttribute('onclick','selectPerfume(this)');
+            input.setAttribute('class','not-checked');
+            input.setAttribute('perfumeName',p.data['Name']);
 
             div2.className ="md-checkbox";
-            //label.className ="mdl-checkbox mdl-js-checkbox";
             label.htmlFor = "checkbox"+count;
 
             div2.style.marginTop="-5px";
@@ -3419,46 +3420,21 @@ var Vis = new function () {
             span3.appendChild(span4);
 
             li.appendChild(span1);
-            //li.appendChild(div2);
+            li.appendChild(div2);
             ul.appendChild(li);
             div.appendChild(ul);
-
-            componentHandler.upgradeDom('MaterialCheckbox');
-            componentHandler.upgradeElement(div2);
-            componentHandler.upgradeElement(label);
-            componentHandler.upgradeElement(input);
 
             document.getElementById('selectList').appendChild(div);
 
             count++;
         }
 
+
         _.forEach(points, function (p) {
             if(name==p.data["Designer"]){
                 add_item(p);
             }
         });
-        $('ul').click(function() {
-            if($(this).hasClass('clicked')){
-                $(this).removeClass('clicked');
-                $(this).css("box-shadow","0 1px 5px 0 rgba(0,0,0,.12)");
-            }
-            else if(!$(this).hasClass('clicked')){
-                if($('ul').hasClass('clicked')){
-                    $('ul').removeClass('clicked');
-                    $('ul').css("box-shadow","0 1px 5px 0 rgba(0,0,0,.12)");
-                }
-
-                $(this).addClass('clicked');
-                $(this).css("box-shadow","2px 4px 8px rgba(0, 0, 0, 0.4)");
-
-                that.appendselectedPerfumeChart($(this).attr('data'));
-                ulcount = 1;
-            }
-        }).hover(
-            function () { $(this).css("opacity","0.4"); },
-            function () { $(this).css("opacity","1"); }
-        );
     }
 
     this.appendNodesColorInfor = function (nodecolor) {
