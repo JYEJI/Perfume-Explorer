@@ -226,7 +226,7 @@ var Vis = new function () {
     this.Weightdimensions = [];
     var that = this;
     var parentG = root.append('g')
-        .attr('transform', 'translate('+((windowWidth-240-576-30))+','+(windowHeight/2-56)+')');
+        .attr('transform', 'translate('+((windowWidth-240-576-20))+','+(windowHeight/2-56)+')');
 
     var color;
 
@@ -236,7 +236,7 @@ var Vis = new function () {
     this.drawDimension = function (keys,name) {
 
         var g = root.append('g');
-        g.attr('transform', 'translate('+((windowWidth-240-576-30))+','+(windowHeight/2-56)+')').attr('id',name);
+        g.attr('transform', 'translate('+((windowWidth-240-576-20))+','+(windowHeight/2-56)+')').attr('id',name);
 
         var r = (windowWidth-150)/6 + dimensionCount * 30;
 
@@ -253,7 +253,7 @@ var Vis = new function () {
             .on("mouseup", mouseup);
 
         function mouse(e) {
-            return [e.pageX-(windowWidth-240-576-30), e.pageY-windowHeight/2-56];
+            return [e.pageX-(windowWidth-240-576-20), e.pageY-windowHeight/2-56];
         }
 
         function mousedown() {
@@ -282,7 +282,7 @@ var Vis = new function () {
                 m0 = null;
 
                 g.style("-webkit-transform", null);
-                g.attr('transform', 'translate('+((windowWidth-240-576-30))+','+(windowHeight/2-56)+')rotate(' + rotate + ')');
+                g.attr('transform', 'translate('+((windowWidth-240-576-20))+','+(windowHeight/2-56)+')rotate(' + rotate + ')');
                 console.log("dm:"+dm);
                 console.log("rotate:"+rotate);
             }
@@ -292,7 +292,7 @@ var Vis = new function () {
         }
 
         function setState(dm){
-            g.attr('transform', 'translate('+((windowWidth-240-576-30))+','+(windowHeight/2-56)+')rotate(' + (rotate + dm) + ')');
+            g.attr('transform', 'translate('+((windowWidth-240-576-20))+','+(windowHeight/2-56)+')rotate(' + (rotate + dm) + ')');
         }
 
         function add_item(id,dm,dm_name,nWeight){
