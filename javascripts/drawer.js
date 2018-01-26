@@ -28,6 +28,8 @@ var sillage =["SOFT","MODERATE","HEAVY","ENORMOUS"];
 var longevity=["POOR","WEAK","MODERATE","LONG LASTING","VERY LONG LASTING"];
 var notes = ["MUSK AMBER","SWEETS","RESINS","SPICES","WOODS","BEVERAGES","CITRUS","NATURAL","GREENS HERBS","FRUITS","FLOWERS","WHITE FLOWERS"];
 
+var seasondbclicked = false, longevitydbclicked = false, sillagedbclicked = false, notesdbclicked = false;
+
 function testfunc(test) {
     d3.select(this).on('input', function () {
         var weigh = test.parentNode.parentNode.getAttribute('class');
@@ -279,15 +281,19 @@ var Vis = new function () {
             txt2.className = id;
             txt2.textContent = dm_name;
 
-            div.style.marginTop="-10px";
-            div.style.width="245px";
+            div.style.marginTop="-17px";
+            div.style.width="230px";
             div.style.marginLeft="-15px";
+            div.style.paddingBottom="2px";
 
-            txt.style.fontSize = "12px";
-            txt2.style.fontSize = "10px";
+            txt.style.fontSize = "10px";
+            txt.style.fontWeight = "bold";
+            txt.style.color = "rgba(80, 80, 80, 0.56)";
+            txt2.style.fontSize = "8px";
+            txt2.style.fontWeight = "normal";
             txt2.style.float="right";
             txt2.style.width="10px";
-            txt2.style.marginRight="38px";
+            txt2.style.marginRight="40px";
             txt.style.marginTop="20px";
 
             txt.appendChild(txt2);
@@ -304,22 +310,101 @@ var Vis = new function () {
             var DA = d3.select(this).attr("id");
             var dm =  d3.select(this).attr("dm");
             var dm_name = d3.select(this).attr("name");
-            console.log(dm);
-            if (d3.select(this).style("opacity") == "0.4"){
-                d3.select(this).style("opacity","1.0");
-                WeightVar.push(DA);
-                key.push(keys);
-                that.updateWeight(DA, nWeight);
-                add_item(DA,dm,dm_name);
+
+            if(dm_name=="Season"){
+                if(!seasondbclicked){
+                    if (d3.select(this).style("opacity") == "0.4"){
+                        d3.select(this).style("opacity","1.0");
+                        WeightVar.push(DA);
+                        key.push(keys);
+                        that.updateWeight(DA, nWeight);
+                        add_item(DA,dm,dm_name);
+                        seasondbclicked=true;
+                    }
+                }
+                else {
+                    if(d3.select(this).style("opacity") == "1"){
+                        console.log("delete weight!");
+                        d3.select(this).style("opacity","0.4");
+                        WeightVar.splice(WeightVar.indexOf(dm),1);
+                        key.splice(key.indexOf(keys),1);
+                        that.removeWeightingVar(keys,DA);
+                        that.updateNodes();
+                        remove_item(DA,dm);
+                        seasondbclicked=false;
+                    }
+                }
             }
-            else {
-                d3.select(this).style("opacity","0.4");
-                WeightVar.splice(WeightVar.indexOf(dm),1);
-                key.splice(key.indexOf(keys),1);
-                that.removeWeightingVar(keys,DA);
-                that.updateNodes();
-                remove_item(DA,dm);
+            else if(dm_name=="Longevity"){
+                if(!longevitydbclicked){
+                    if (d3.select(this).style("opacity") == "0.4"){
+                        d3.select(this).style("opacity","1.0");
+                        WeightVar.push(DA);
+                        key.push(keys);
+                        that.updateWeight(DA, nWeight);
+                        add_item(DA,dm,dm_name);
+                        longevitydbclicked=true;
+                    }
+                }
+                else {
+                    if(d3.select(this).style("opacity") == "1"){
+                        d3.select(this).style("opacity","0.4");
+                        WeightVar.splice(WeightVar.indexOf(dm),1);
+                        key.splice(key.indexOf(keys),1);
+                        that.removeWeightingVar(keys,DA);
+                        that.updateNodes();
+                        remove_item(DA,dm);
+                        longevitydbclicked=false;
+                    }
+                }
             }
+            else if(dm_name=="Sillage"){
+                if(!sillagedbclicked){
+                    if (d3.select(this).style("opacity") == "0.4"){
+                        d3.select(this).style("opacity","1.0");
+                        WeightVar.push(DA);
+                        key.push(keys);
+                        that.updateWeight(DA, nWeight);
+                        add_item(DA,dm,dm_name);
+                        sillagedbclicked=true;
+                    }
+                }
+                else {
+                    if(d3.select(this).style("opacity") == "1"){
+                        d3.select(this).style("opacity","0.4");
+                        WeightVar.splice(WeightVar.indexOf(dm),1);
+                        key.splice(key.indexOf(keys),1);
+                        that.removeWeightingVar(keys,DA);
+                        that.updateNodes();
+                        remove_item(DA,dm);
+                        sillagedbclicked=false;
+                    }
+                }
+            }
+            else if(dm_name=="Notes"){
+                if(!notesdbclicked){
+                    if (d3.select(this).style("opacity") == "0.4"){
+                        d3.select(this).style("opacity","1.0");
+                        WeightVar.push(DA);
+                        key.push(keys);
+                        that.updateWeight(DA, nWeight);
+                        add_item(DA,dm,dm_name);
+                        notesdbclicked=true;
+                    }
+                }
+                else {
+                    if(d3.select(this).style("opacity") == "1"){
+                        d3.select(this).style("opacity","0.4");
+                        WeightVar.splice(WeightVar.indexOf(dm),1);
+                        key.splice(key.indexOf(keys),1);
+                        that.removeWeightingVar(keys,DA);
+                        that.updateNodes();
+                        remove_item(DA,dm);
+                        notesdbclicked=false;
+                    }
+                }
+            }
+
         }
 
         function cross(a, b) {
@@ -3763,6 +3848,7 @@ $('input:checkbox').click(function () {
                 $("#brandColor").hide();
                 $("#daynightColor").show();
                 brand = "Brand";
+                $('#brand-name').text(brand);
                 $('.select-box').val(1);
                 $(".select-box").prop('disabled', 'disabled');
                 var ds = $("#switch6").attr('dimensions');
@@ -3789,6 +3875,7 @@ $('input:checkbox').click(function () {
                 $("#brandColor").hide();
                 $("#ratingColor").show();
                 brand = "Brand";
+                $('#brand-name').text(brand);
                 $('.select-box').val(1);
                 $(".select-box").prop('disabled', 'disabled');
                 var ds = $("#switch7").attr('dimensions');
@@ -3834,8 +3921,8 @@ $('input:checkbox').click(function () {
             $("#daynightColor").hide();
             $("#ratingColor").hide();
             $("#brandColor").hide();
-            //$(".brand-event-group").hide();
             brand = "Brand";
+            $('#brand-name').text(brand);
             $('.select-box').val(1);
             $(".select-box").prop('disabled', 'disabled');
             Vis.updateNodeColor(brand);
@@ -3866,9 +3953,33 @@ $('input:checkbox').click(function () {
 
     if($('#switch5').is(':checked')||$("#switch6").is(':checked')||$("#switch7").is(':checked')){
         $('.select-box').prop('disabled', 'disabled');
+        d3.selectAll("#img").style("display","none");
+        d3.selectAll("#img0").style("display","none");
+        d3.selectAll("#img1").style("display","none");
+        d3.selectAll("#img2").style("display","none");
+        d3.selectAll("#img3").style("display","none");
+        d3.selectAll("#img4").style("display","none");
+        d3.selectAll('#selectList #perfume-list').remove();
+        d3.select("#barchart").remove();
+        d3.select("#radarChart").remove();
+        d3.select("#perfume-content").style("display","none");
+        d3.select(".comparison-select-box").style("display","none");
     }
     else if(!$('#switch5').is(':checked')&&!$("#switch6").is(':checked')&&!$("#switch7").is(':checked')&&!$("#switch8").is(':checked')){
         $('.select-box').prop('disabled', false);
     }
-
+    if(($('#switch1').is(':checked')||$("#switch2").is(':checked')||$("#switch3").is(':checked')||$('#switch4').is(':checked'))&&!$('#switch5').is(':checked')&&!$("#switch6").is(':checked')&&!$("#switch7").is(':checked')&&!$("#switch8").is(':checked')){
+        $('.select-box').prop('disabled', 'disabled');
+        d3.selectAll("#img").style("display","none");
+        d3.selectAll("#img0").style("display","none");
+        d3.selectAll("#img1").style("display","none");
+        d3.selectAll("#img2").style("display","none");
+        d3.selectAll("#img3").style("display","none");
+        d3.selectAll("#img4").style("display","none");
+        d3.selectAll('#selectList #perfume-list').remove();
+        d3.select("#barchart").remove();
+        d3.select("#radarChart").remove();
+        d3.select("#perfume-content").style("display","none");
+        d3.select(".comparison-select-box").style("display","none");
+    }
 });

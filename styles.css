@@ -391,7 +391,9 @@ _:-ms-input-placeholder, :root .demo-graph {
     position: relative;
     width: 220px;
     height: 200px;
-    margin:10px;
+    margin-left:10px;
+    margin-top:5px;
+    padding-top:10px;
     font-size: 10pt;
     overflow-y: auto;
     overflow-x: hidden;
@@ -440,7 +442,7 @@ body {
     top: 30px;
     z-index: 2;
     font-size: 25pt;
-    font-weight:bold;
+    font-weight: bold;
     background: #ffffff;
     border-bottom: 1px solid #bababa;
 }
