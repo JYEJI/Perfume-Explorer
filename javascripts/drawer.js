@@ -324,16 +324,6 @@ var Vis = new function () {
             txt2.style.fontSize = "8px";
             txt2.style.fontWeight = "normal";
 
-            /*if(dm_name=="Longevity"){
-                txt2.style.marginRight="65px";
-            }
-            else if(dm_name=="Season"){
-                txt2.style.marginRight="58px";
-            }
-            else{
-                txt2.style.marginRight="55px";
-            }*/
-
             txt3.style.fontSize = "13px";
             txt3.style.fontWeight = "bold";
             txt3.style.fontWeight = "normal";
