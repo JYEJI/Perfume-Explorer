@@ -890,7 +890,7 @@ var Vis = new function () {
         }
         that.redrawdimensions = unique(that.redrawdimensions);
 
-        if(dimension_r[1]-dimension_r[0]>=60||dimension_r[2]-dimension_r[1]>=60||dimension_r[0]>=(windowWidth-150)/6+30){
+        if(dimension_r[1]-dimension_r[0]>=60||dimension_r[2]-dimension_r[1]>=60||dimension_r[0]>=(windowWidth-150)/6){
             dimensionCount=0;
             that.dimensions=[];
             that.Weightdimensions=[];
