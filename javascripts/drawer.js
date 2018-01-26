@@ -3217,6 +3217,7 @@ var Vis = new function () {
             currentX		: 0,
             originX			: 0,
             originY			: 0,
+            id              :"select_rect",
             setElement: function(ele) {
                 this.previousElement = this.element;
                 this.element = ele;
@@ -3445,27 +3446,6 @@ var Vis = new function () {
                 // range selected
                 d3.event.sourceEvent.preventDefault();
                 selectionRect.focus();
-                /*$('ul').click(function() {
-                    if($(this).hasClass('clicked')){
-                        $(this).removeClass('clicked');
-                        $(this).css("box-shadow","0 1px 5px 0 rgba(0,0,0,.12)");
-                    }
-                    else if(!$(this).hasClass('clicked')){
-                        if($('ul').hasClass('clicked')){
-                            $('ul').removeClass('clicked');
-                            $('ul').css("box-shadow","0 1px 5px 0 rgba(0,0,0,.12)");
-                        }
-
-                        $(this).addClass('clicked');
-                        $(this).css("box-shadow","2px 4px 8px rgba(0, 0, 0, 0.4)");
-
-                        that.appendselectedPerfumeChart($(this).attr('data'));
-                    }
-                }).hover(
-                    function () { $(this).css("opacity","0.4"); },
-                    function () { $(this).css("opacity","1"); }
-                );*/
-
             }
             else {
                 console.log("single point");
@@ -3975,7 +3955,7 @@ $('input:checkbox').click(function () {
         else{
             var ds = _.split($(this).attr('dimensions'), ',');
             var name = $(this).attr('dsname');
-
+            d3.selectAll(".selection").remove();
             Vis.drawDimension(ds,name);
             Vis.updateNodes();
             _.forEach(ds,function(d){
