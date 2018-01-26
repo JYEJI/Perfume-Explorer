@@ -12,7 +12,7 @@ var prepoint2=[];
 
 var points = [];
 
-var nWeight = 5;
+var nWeight = 3;
 var WeightVar = [];
 var key = [];
 
@@ -35,93 +35,55 @@ function testfunc(test) {
         var weigh = test.parentNode.parentNode.getAttribute('class');
         var nWeight = event.target.value;
 
-        if(nWeight== -10) {
+        if(nWeight== -5) {
             test.nextSibling.childNodes[0].style.flex='0.0 1 0%';
             test.nextSibling.childNodes[1].style.flex='1.0 1 0%';
         }
-        else if(nWeight== -9){
-            test.nextSibling.childNodes[0].style.flex='0.05 1 0%';
-            test.nextSibling.childNodes[1].style.flex='0.95 1 0%';
-        }
-        else if(nWeight== -8){
+        else if(nWeight== -4){
             test.nextSibling.childNodes[0].style.flex='0.1 1 0%';
             test.nextSibling.childNodes[1].style.flex='0.9 1 0%';
         }
-        else if(nWeight== -7){
-            test.nextSibling.childNodes[0].style.flex='0.15 1 0%';
-            test.nextSibling.childNodes[1].style.flex='0.85 1 0%';
-        }
-        else if(nWeight== -6){
+        else if(nWeight== -3){
             test.nextSibling.childNodes[0].style.flex='0.2 1 0%';
             test.nextSibling.childNodes[1].style.flex='0.8 1 0%';
         }
-        else if(nWeight== -5){
-            test.nextSibling.childNodes[0].style.flex='0.25 1 0%';
-            test.nextSibling.childNodes[1].style.flex='0.75 1 0%';
-        }
-        else if(nWeight== -4){
+        else if(nWeight== -2){
             test.nextSibling.childNodes[0].style.flex='0.3 1 0%';
             test.nextSibling.childNodes[1].style.flex='0.7 1 0%';
         }
-        else if(nWeight== -3){
-            test.nextSibling.childNodes[0].style.flex='0.35 1 0%';
-            test.nextSibling.childNodes[1].style.flex='0.65 1 0%';
-        }
-        else if(nWeight== -2){
+        else if(nWeight== -1){
             test.nextSibling.childNodes[0].style.flex='0.4 1 0%';
             test.nextSibling.childNodes[1].style.flex='0.6 1 0%';
-        }
-        else if(nWeight== -1){
-            test.nextSibling.childNodes[0].style.flex='0.45 1 0%';
-            test.nextSibling.childNodes[1].style.flex='0.55 1 0%';
         }
         else if(nWeight== 0){
             test.nextSibling.childNodes[0].style.flex='0.5 1 0%';
             test.nextSibling.childNodes[1].style.flex='0.5 1 0%';
         }
         else if(nWeight== 1){
-            test.nextSibling.childNodes[0].style.flex='0.55 1 0%';
-            test.nextSibling.childNodes[1].style.flex='0.45 1 0%';
-        }
-        else if(nWeight== 2){
             test.nextSibling.childNodes[0].style.flex='0.6 1 0%';
             test.nextSibling.childNodes[1].style.flex='0.4 1 0%';
         }
-        else if(nWeight== 3){
-            test.nextSibling.childNodes[0].style.flex='0.65 1 0%';
-            test.nextSibling.childNodes[1].style.flex='0.35 1 0%';
-        }
-        else if(nWeight== 4){
+        else if(nWeight== 2){
             test.nextSibling.childNodes[0].style.flex='0.7 1 0%';
             test.nextSibling.childNodes[1].style.flex='0.3 1 0%';
         }
-        else if(nWeight== 5){
-            test.nextSibling.childNodes[0].style.flex='0.75 1 0%';
-            test.nextSibling.childNodes[1].style.flex='0.25 1 0%';
-        }
-        else if(nWeight== 6){
+        else if(nWeight== 3){
             test.nextSibling.childNodes[0].style.flex='0.8 1 0%';
             test.nextSibling.childNodes[1].style.flex='0.2 1 0%';
         }
-        else if(nWeight== 7){
-            test.nextSibling.childNodes[0].style.flex='0.85 1 0%';
-            test.nextSibling.childNodes[1].style.flex='0.15 1 0%';
-        }
-        else if(nWeight== 8){
+        else if(nWeight== 4){
             test.nextSibling.childNodes[0].style.flex='0.9 1 0%';
             test.nextSibling.childNodes[1].style.flex='0.1 1 0%';
         }
-        else if(nWeight== 9){
-            test.nextSibling.childNodes[0].style.flex='0.95 1 0%';
-            test.nextSibling.childNodes[1].style.flex='0.05 1 0%';
-        }
-        else if(nWeight== 10){
+        else if(nWeight== 5){
             test.nextSibling.childNodes[0].style.flex='1.0 1 0%';
             test.nextSibling.childNodes[1].style.flex='0.0 1 0%';
         }
 
 
         Vis.updateWeight(weigh, nWeight);
+        $('#'+weigh+'_nWeight').text(nWeight);
+
     });
 };
 function selectPerfume(item) {
@@ -333,11 +295,13 @@ var Vis = new function () {
             g.attr('transform', 'translate('+((windowWidth-240-576))+','+(windowHeight/2-56)+')rotate(' + (rotate + dm) + ')');
         }
 
-        function add_item(id,dm,dm_name){
+        function add_item(id,dm,dm_name,nWeight){
             // pre_set 에 있는 내용을 읽어와서 처리..
             var div = document.createElement('div');
             var txt = document.createElement('text');
             var txt2 = document.createElement('text');
+            var txt3 = document.createElement('text');
+
             div.innerHTML = document.getElementById('pre_set').innerHTML;
             txt.innerText = document.getElementById('weight_id').innerText;
             div.className = id;
@@ -345,22 +309,40 @@ var Vis = new function () {
             txt.textContent = dm;
             txt2.className = id;
             txt2.textContent = dm_name;
+            txt3.textContent = nWeight;
+            txt3.id = id+'_nWeight';
 
             div.style.marginTop="-17px";
-            div.style.width="230px";
+            div.style.width="195px";
             div.style.marginLeft="-15px";
-            div.style.paddingBottom="2px";
 
             txt.style.fontSize = "10px";
             txt.style.fontWeight = "bold";
             txt.style.color = "rgba(80, 80, 80, 0.56)";
-            txt2.style.fontSize = "8px";
-            txt2.style.fontWeight = "normal";
-            txt2.style.float="right";
-            txt2.style.width="10px";
-            txt2.style.marginRight="40px";
             txt.style.marginTop="20px";
 
+            txt2.style.fontSize = "8px";
+            txt2.style.fontWeight = "normal";
+
+            /*if(dm_name=="Longevity"){
+                txt2.style.marginRight="65px";
+            }
+            else if(dm_name=="Season"){
+                txt2.style.marginRight="58px";
+            }
+            else{
+                txt2.style.marginRight="55px";
+            }*/
+
+            txt3.style.fontSize = "13px";
+            txt3.style.fontWeight = "bold";
+            txt3.style.fontWeight = "normal";
+            txt3.style.borderBottom="2px solid rgb(3,169,244)";
+            txt3.style.marginTop="15px";
+            txt3.style.marginRight="15px";
+            txt3.style.float="right";
+
+            txt2.appendChild(txt3);
             txt.appendChild(txt2);
             txt.appendChild(div);
             document.getElementById('weight-field').appendChild(txt);
@@ -383,7 +365,7 @@ var Vis = new function () {
                         WeightVar.push(DA);
                         key.push(keys);
                         that.updateWeight(DA, nWeight);
-                        add_item(DA,dm,dm_name);
+                        add_item(DA,dm,dm_name,nWeight);
                         seasondbclicked=true;
                     }
                 }
@@ -407,7 +389,7 @@ var Vis = new function () {
                         WeightVar.push(DA);
                         key.push(keys);
                         that.updateWeight(DA, nWeight);
-                        add_item(DA,dm,dm_name);
+                        add_item(DA,dm,dm_name,nWeight);
                         longevitydbclicked=true;
                     }
                 }
@@ -430,7 +412,7 @@ var Vis = new function () {
                         WeightVar.push(DA);
                         key.push(keys);
                         that.updateWeight(DA, nWeight);
-                        add_item(DA,dm,dm_name);
+                        add_item(DA,dm,dm_name,nWeight);
                         sillagedbclicked=true;
                     }
                 }
@@ -453,7 +435,7 @@ var Vis = new function () {
                         WeightVar.push(DA);
                         key.push(keys);
                         that.updateWeight(DA, nWeight);
-                        add_item(DA,dm,dm_name);
+                        add_item(DA,dm,dm_name,nWeight);
                         notesdbclicked=true;
                     }
                 }
