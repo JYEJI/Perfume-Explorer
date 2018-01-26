@@ -191,6 +191,71 @@ function selectPerfume(item) {
 
     }
 }
+function selectPerfume2(item) {
+    var item_id = item.getAttribute('id');
+    var perfume_name = item.getAttribute('perfumeName');
+    var checked = item.getAttribute('class');
+
+    if(checked=='not-checked'){
+        select_perfume_count++;
+        item.setAttribute('class','checked');
+        console.log('item checked');
+        console.log(select_perfume_count);
+        if(select_perfume_count<=5)
+        {
+            pre_seleted_perfume_id.push(item_id);
+            perfume_name_list.push(perfume_name);
+            Vis.appendselectedPerfumeChart();
+        }
+        else{
+            $("#"+pre_seleted_perfume_id[pre_seleted_perfume_id.length-5]).prop('checked',false);
+            $("#"+pre_seleted_perfume_id[pre_seleted_perfume_id.length-5]).attr('class','not-checked');
+
+            pre_seleted_perfume_id.push(item_id);
+            pre_seleted_perfume_id.splice(0,1);
+
+            console.log(pre_seleted_perfume_id);
+
+            perfume_name_list=[];
+            for(var i=0;i<pre_seleted_perfume_id.length;i++){
+                perfume_name_list.push($('#'+pre_seleted_perfume_id[i]).attr('perfumeName'));
+            }
+            console.log(perfume_name_list);
+
+            d3.selectAll("#img0").style("display","none");
+            d3.selectAll("#img1").style("display","none");
+            d3.selectAll("#img2").style("display","none");
+            d3.selectAll("#img3").style("display","none");
+            d3.selectAll("#img4").style("display","none");
+            Vis.appendselectedPerfumeChart();
+
+            select_perfume_count--;
+
+        }
+    }
+    else{
+        select_perfume_count--;
+        item.setAttribute('class','not-checked');
+
+        pre_seleted_perfume_id.splice(pre_seleted_perfume_id.indexOf(item_id),1);
+        console.log(pre_seleted_perfume_id);
+
+        perfume_name_list=[];
+        for(var i=0;i<pre_seleted_perfume_id.length;i++){
+            perfume_name_list.push($('#'+pre_seleted_perfume_id[i]).attr('perfumeName'));
+        }
+        console.log(perfume_name_list);
+
+        d3.selectAll("#img0").style("display","none");
+        d3.selectAll("#img1").style("display","none");
+        d3.selectAll("#img2").style("display","none");
+        d3.selectAll("#img3").style("display","none");
+        d3.selectAll("#img4").style("display","none");
+
+        Vis.appendselectedPerfumeChart();
+
+    }
+}
 
 var Vis = new function () {
 
@@ -3488,7 +3553,7 @@ var Vis = new function () {
 
             input.id = "checkbox"+count;
             input.type ="checkbox";
-            input.setAttribute('onclick','selectPerfume(this)');
+            input.setAttribute('onclick','selectPerfume2(this)');
             input.setAttribute('class','not-checked');
             input.setAttribute('perfumeName',p.data['Name']);
 
@@ -3771,8 +3836,13 @@ $("select").on("change", function(){
         else if($('#switch7').is(":checked")){
             Vis.updateNodeColor($("#switch7").attr('dimensions'));
         }
-        else if($('.select-box option:selected').text()!="Brand"){
+        if($('.select-box option:selected').text()!="Brand"){
             Vis.updateNodeColor($('.select-box option:selected').text());
+            for(var i=0;i<pre_seleted_perfume_id.length;i++){
+                console.log(pre_seleted_perfume_id[i]);
+                $("#"+pre_seleted_perfume_id[i]).prop('checked',true);
+                $("#"+pre_seleted_perfume_id[i]).attr('class','checked');
+            }
         }
         compare = $(this).text();
 
