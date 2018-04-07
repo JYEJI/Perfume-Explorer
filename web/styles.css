@@ -1,24 +1,8 @@
-/**
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 html, body {
-  font-family: 'Roboto', 'Helvetica', sans-serif;
+    font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 .gradient-box{
-    height:50px;
+    height:0px;
 }
 .color-info{
     background: #fff;
@@ -37,16 +21,17 @@ html, body {
     line-height: 1;
     letter-spacing: .02em;
     font-weight: 400;
+    height: 5px;
 }
 
 #daynightColor{
     width: 140px;
-    height: 60px;
+    height: 40px;
     padding:10px;
 }
 #ratingColor{
     width: 140px;
-    height: 60px;
+    height: 40px;
     padding:10px;
 }
 #brandColor{
@@ -60,16 +45,46 @@ html, body {
 }
 .sidenav {
     height: 100%;
+    width: 20%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    background-color: #fff;
+    border:1px solid rgba(200, 200, 200, 0.56);
+}
+
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.main {
+    margin-left: 160px; /* Same as the width of the sidenav */
+    font-size: 28px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
+}
+
+.right-sidenav {
+    height: 100%;
     width: 25%;
     position: fixed;
     z-index: 1;
     top: 0;
     right: 0;
-    background-color: #fff;
     overflow-x: hidden;
-    border-left:1px solid rgba(200, 200, 200, 0.56);
+    background-color: #fff;
+    border:1px solid rgba(200, 200, 200, 0.56);
 }
-.sidenav-title{
+.right-sidenav-title{
     display: block;
     position: relative;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -85,19 +100,19 @@ html, body {
     padding: 22px 10px 0 40px;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
 }
-.sidenav a {
-    padding: 8px 8px 8px 32px;
+.right-sidenav a {
+    padding: 6px 8px 6px 16px;
     text-decoration: none;
     font-size: 25px;
     color: #818181;
     display: block;
 }
 
-.sidenav a:hover {
+.right-sidenav a:hover {
     color: #f1f1f1;
 }
 
-.sidenav .closebtn {
+.right-sidenav .closebtn {
     position: absolute;
     top: 0;
     right: 25px;
@@ -106,12 +121,8 @@ html, body {
 }
 
 @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
-}
-
-.main {
-    margin-right: 200px; /* Same as the width of the sidenav */
+    .right-sidenav a {font-size: 18px;}
 }
 
 .demo-list-control {
@@ -161,90 +172,90 @@ rect.selection {
     fill-opacity: 0.5;
 }
 .demo-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
 }
 .demo-layout .mdl-layout__header .mdl-layout__drawer-button {
     background: rgba(255, 255, 255, 0.54);
 }
 .mdl-layout__drawer .avatar {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 .demo-drawer {
-  border: none;
+    border: none;
 }
 /* iOS Safari specific workaround */
 .demo-drawer .mdl-menu__container {
-  z-index: -1;
+    z-index: -1;
 }
 .demo-drawer .demo-navigation {
-  z-index: -2;
+    z-index: -2;
 }
 /* END iOS Safari specific workaround */
 .demo-drawer .mdl-menu .mdl-menu__item {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
 .demo-drawer-header {
-  box-sizing: border-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-justify-content: flex-end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  padding: 16px;
-  height: 65px;
-  border-bottom: 1px solid rgba(200, 200, 200, 0.56);
+    box-sizing: border-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    padding: 16px;
+    height: 65px;
+    border-bottom: 1px solid rgba(200, 200, 200, 0.56);
 }
 .demo-avatar-dropdown {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  position: relative;
-  -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 100%;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 100%;
 }
 
 .demo-navigation {
-  -webkit-flex-grow: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
 }
 .demo-layout .demo-navigation .mdl-navigation__link {
-  display: -webkit-flex !important;
-  display: -ms-flexbox !important;
-  display: flex !important;
-  -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  color: rgba(0, 0, 0, 0.56);
-  font-weight: 500;
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.56);
+    font-weight: 500;
 }
 .demo-layout .demo-navigation .mdl-navigation__link:hover {
-  background-color: #00BCD4;
-  color: #37474F;
+    background-color: #00BCD4;
+    color: #37474F;
 }
 .demo-navigation .mdl-navigation__link .material-icons {
-  font-size: 24px;
-  color: rgba(0, 0, 0, 0.56);
-  margin-right: 32px;
+    font-size: 24px;
+    color: rgba(0, 0, 0, 0.56);
+    margin-right: 32px;
 }
 
 .demo-content {
@@ -254,110 +265,110 @@ rect.selection {
 
 .demo-charts {
     -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
 .demo-chart:nth-child(1) {
-  color: #ACEC00;
+    color: #ACEC00;
 }
 .demo-chart:nth-child(2) {
-  color: #00BBD6;
+    color: #00BBD6;
 }
 .demo-chart:nth-child(3) {
-  color: #BA65C9;
+    color: #BA65C9;
 }
 .demo-chart:nth-child(4) {
-  color: #EF3C79;
+    color: #EF3C79;
 }
 .demo-graphs {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-align-items: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
 }
 /* TODO: Find a proper solution to have the graphs
  * not float around outside their container in IE10/11.
  * Using a browserhacks.com solution for now.
  */
 _:-ms-input-placeholder, :root .demo-graphs {
-  min-height: 664px;
+    min-height: 664px;
 }
 _:-ms-input-placeholder, :root .demo-graph {
-  max-height: 300px;
+    max-height: 300px;
 }
 /* TODO end */
 .demo-graph:nth-child(1) {
-  color: #00b9d8;
+    color: #00b9d8;
 }
 .demo-graph:nth-child(2) {
-  color: #d9006e;
+    color: #d9006e;
 }
 
 .demo-cards {
     margin-top: 10px;
     width: 340px;
-  -webkit-align-items: flex-start;
-      -ms-flex-align: start;
-          align-items: flex-start;
-  -webkit-align-content: flex-start;
-      -ms-flex-line-pack: start;
-          align-content: flex-start;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    -webkit-align-content: flex-start;
+    -ms-flex-line-pack: start;
+    align-content: flex-start;
 }
 .demo-cards .demo-separator {
-  height: 32px;
+    height: 32px;
 }
 .demo-cards .mdl-card__title.mdl-card__title {
-  color: white;
-  font-size: 24px;
-  font-weight: 400;
+    color: white;
+    font-size: 24px;
+    font-weight: 400;
 }
 .demo-cards ul {
-  padding: 0;
+    padding: 0;
 }
 .demo-cards h3 {
-  font-size: 1em;
+    font-size: 1em;
 }
 .demo-updates .mdl-card__title {
-  min-height: 100px;
-  /*background-image: url('images/dog.png');*/
-  background-position: 90% 30%;
-  background-repeat: no-repeat;
+    min-height: 100px;
+    /*background-image: url('images/dog.png');*/
+    background-position: 90% 30%;
+    background-repeat: no-repeat;
 }
 .demo-cards .mdl-card__actions a {
-  color: #00BCD4;
-  text-decoration: none;
+    color: #00BCD4;
+    text-decoration: none;
 }
 
 .demo-options h3 {
-  margin: 0;
+    margin: 0;
 }
 .demo-options{
-  border-color: rgba(255, 255, 255, 0.89);
+    border-color: rgba(255, 255, 255, 0.89);
 }
 .demo-options ul {
-  margin: 0;
-  list-style-type: none;
+    margin: 0;
+    list-style-type: none;
 }
 .demo-options li {
-  margin: 4px 0;
+    margin: 4px 0;
 }
 .demo-options .material-icons {
-  color: rgba(255, 255, 255, 0.89);
+    color: rgba(255, 255, 255, 0.89);
 }
 .demo-options .mdl-card__actions {
-  height: 64px;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  box-sizing: border-box;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
+    height: 64px;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    box-sizing: border-box;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
 
 .weight-group{
@@ -382,18 +393,17 @@ _:-ms-input-placeholder, :root .demo-graph {
 
 #selectList{
     height: 180px;
-    margin:0px;
+    width:100%;
+    margin:-5px;
     font-size: 10pt;
     overflow-y: auto;
     overflow-x: hidden;
 }
 #weight-field{
     position: relative;
-    width: 220px;
-    height: 200px;
-    margin-left:10px;
-    margin-top:5px;
-    padding-top:10px;
+    width: 100%;
+    height: auto;
+    padding:10px;
     font-size: 10pt;
     overflow-y: auto;
     overflow-x: hidden;
@@ -408,7 +418,6 @@ _:-ms-input-placeholder, :root .demo-graph {
 
     color: rgba(0, 0, 0, 0.56);
     font-weight: 500;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 #weight-field text{
     margin-left:10px;
@@ -483,7 +492,7 @@ body {
 }
 
 .container {
-    width: 30px;
+    width: 10%;
     display: block;
     position: relative;
     padding-left: 5px;
@@ -580,9 +589,9 @@ body {
     cursor: pointer;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.56);
-    width: 130px;
+    width: 50%;
     position: relative;
-    margin-left: 52px;
+    margin-left: 30%;
     background: rgba(255, 255, 255, 0);
     border:0px;
 }
@@ -625,10 +634,10 @@ body {
 .comparison-select-box{
     display: none;
     float: right;
-    margin-right:50px;
+    margin-right: 50%;
     margin-top: 10px;
-    width: 100px;
-    height: 20px;
+    width: 20%;
+    height: 10%;
     position: relative;
     z-index: 2;
     font-size: 8pt;
@@ -718,16 +727,16 @@ body {
 
 #img-container{
     float: left;
-    width:350px;
-    height:350px;
+    width:120%;
+    height:100%;
     padding-bottom: 5px;
 }
 #img{
     display: none;
     float: left;
-    margin-top: 40px;
-    width: 125px;
-    height: 185px;
+    margin-top: 10%;
+    width: 30%;
+    height: 50%;
     background-color: white;
 }
 #img0{
@@ -789,10 +798,10 @@ body {
 
 #img-container #perfume-content{
     float: left;
-    margin-top: 50px;
-    margin-left: 10px;
-    width:135px;
-    height:150px;
+    margin-top: 10%;
+    margin-left: 0%;
+    width:30%;
+    height:auto;
     font-size: 10px;
     background-color:white;
     color: #000 !important;
@@ -807,9 +816,8 @@ body {
 
 #perfume-vote-barchart{
     float: left;
-    margin-left: 10px;
-    width:125px;
-    height:150px;
+    width:20%;
+    height:50%;
     font-size: 10px;
     background-color:white;
     padding:12px;
@@ -863,37 +871,37 @@ h1 {
 }
 .centered {
     position: relative;
-    left: 115px;
+    left: 50%;
 }
 .labels {
     position: relative;
-    left: 35px;
+    left: 15%;
 }
 
 .labels p{
-    margin-bottom: 13px;
+    margin-bottom: 20%;
 }
 
 
 .color-centered{
     position: relative;
-    left: 110px;
+    left: 50%;
 }
 .color-labels {
     position: relative;
     margin-top: -32px;
-    left: 35px;
+    left: 15%;
 }
 
 .color-labels p{
-    margin-bottom: 13px;
+    margin-bottom: 20%;
 }
 
 
 .dimension-icon{
     width: 20px;
     position: relative;
-    left: 10px;
+    left: 5%;
 }
 .dimension-icon img{
     margin-bottom: 15px;
@@ -902,7 +910,7 @@ h1 {
 .color-icon{
     width: 20px;
     position: relative;
-    left: 10px;
+    left: 5%;
 }
 .color-icon img{
     margin-bottom: 15px;
@@ -947,4 +955,49 @@ h1 {
     border: 2px solid #fff;
     border-top-style: none;
     border-right-style: none;
+}
+#csvInput{
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: center;
+    height: 50px;
+    background-color: #ededed;
+    border-top: solid black;
+}
+#csvInputText{
+    font-size: 1em;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.title2{
+    margin-top: 15px;
+}
+div.container{
+    margin-top: 3%;
+}
+.column-left{
+    float: left;
+    margin-top: inherit;
+    width: 20%;
+}
+.column-right{
+    float: right;
+    margin-top: inherit;
+    width: 20%;
+}
+.column-center{
+    display: inline-block;
+    margin-top: inherit;
+    width: 60%;
+}
+.button {
+    background-color: white;
+    color: black;
+    border: 2px solid #63d297;
+}
+.button:hover {
+    background-color: #63d297;
+    color: white;
 }
